@@ -1,0 +1,81 @@
+/* PaymentFailure.css */
+
+.payment-container {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+    height         : 80vh;
+    text-align     : center;
+    padding        : 20px;
+}
+
+.payment-container img {
+    width        : 100px;
+    margin-bottom: 20px;
+}
+
+.payment-container h1 {
+    font-size    : 2rem;
+    color        : #721c24;
+    margin-bottom: 10px;
+}
+
+.payment-success-container {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+    height         : 80vh;
+    text-align     : center;
+    padding        : 20px;
+}
+
+.payment-success-container img {
+    width        : 100px;
+    margin-bottom: 20px;
+}
+
+.payment-success-container h1 {
+    font-size    : 2rem;
+    color        : #155724;
+    margin-bottom: 10px;
+}
+
+.btn-payment {
+    font-size    : 20px;
+    border-radius: 30px;
+    width        : 1200px;
+}
+
+
+.checkout-result-overlay {
+    position           : fixed;
+    top                : 0;
+    left               : 0;
+    width              : 100%;
+    height             : 100%;
+    background-color   : white;
+    display            : flex;
+    flex-direction     : column; 
+    justify-content    : center;
+    align-items        : center;
+    z-index            : 1000;
+}
+
+.checkout-result-overlay .spinner {
+    border       : 6px solid rgba(255, 255, 255, 0.3);
+    border-top   : 6px solid #06BBCC;
+    border-radius: 50%;
+    width        : 60px;
+    height       : 60px;
+    animation    : spin 1s linear infinite;
+}
+
+.checkout-result-overlay .loading-text {
+    margin-top       : 10px; 
+    font-size        : 28px; 
+    font-family      : 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color            : #464646;
+    text-align       : center;
+}

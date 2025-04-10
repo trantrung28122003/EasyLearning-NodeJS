@@ -1,0 +1,23 @@
+.item_wrapper {
+  border       : 2px solid #2bc5d4;
+  border-radius: 10px;
+}
+
+.course_info {
+  background-color: #2bc5d4;
+  color           : white;
+  border-color    : #2bc5d4;
+  border-radius   : 5px;
+  border-width    : 1px;
+  border-style    : solid;
+}
+
+.btn_delete {
+  background-color: #2bc5d4;
+  color           : white;
+  border-color    : #2bc5d4;
+  border-radius   : 5px;
+  border-width    : 1px;
+  border-style    : solid;
+
+}

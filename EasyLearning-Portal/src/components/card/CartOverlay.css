@@ -1,0 +1,208 @@
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+  .cart-overlay-outside-click {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    cursor: pointer;
+}
+  .cart-overlay-content {
+    background: #fff;
+    width: 680px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+  
+  }
+  
+
+  .cart-overlay-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cart-overlay-close-btn:hover {
+    color: #000;
+  }
+  
+  .cart-overlay-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .cart-overlay-course-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .cart-overlay-course-card img {
+    width: 100px;
+    height: 60px;
+    border-radius: 4px;
+  }
+  
+  .cart-overlay-course-card h3 {
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  
+  .cart-overlay-course-card p {
+    font-size: 1.1rem;
+    color: #6a6f73;
+    margin: 5px 0;
+    
+  }
+  .cart-overlay-course-card p del {
+    font-size: 1.0rem;
+    color: #6a6f73;
+    margin-left: 12px;
+    
+  }
+  
+  .cart-overlay-go-to-cart-btn {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .cart-overlay-go-to-cart-btn:hover {
+    background-color: #000;
+  }
+  
+  .cart-overlay-subheader {
+
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .cart-overlay-shoppingCarts {
+    border: 2px solid #e0e0e0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    height: 50vh;
+  }
+  
+  .cart-overlay-shoppingCart-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cart-overlay-shoppingCart-card img {
+    width: 140px;
+    height: 80px;
+    border-radius: 4px;
+  }
+  
+  .cart-overlay-shoppingCart-card h4 {
+    font-size: 1.3rem;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+  }
+  
+  .cart-overlay-shoppingCart-card p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .cart-overlay-shoppingCart-card del {
+    color: #9c9c9c;
+    margin-left: 5px;
+  }
+  
+  .cart-overlay-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .cart-overlay-total del {
+    font-size: 0.9rem;
+    color: #9c9c9c;
+  }
+  
+  .cart-overlay-add-btn {
+    background-color: #06BBCC;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .cart-overlay-add-btn:hover {
+    background-color: #0594a0 ;
+  }
+  .cart-overlay-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    color: #6a6f73;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px auto;
+  }
+
+
+.cart-overlay-tick {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+.cart-overlay-tick i {
+    color: #06BBCC; 
+    font-size: 1.8rem;
+  }
+  
+  
+  
+  

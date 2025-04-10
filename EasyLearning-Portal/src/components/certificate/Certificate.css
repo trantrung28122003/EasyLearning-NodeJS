@@ -1,0 +1,204 @@
+.pdf-preview {
+    align-self: center;
+    width     : 40%;
+    height    : calc(40% * 1.414);
+}
+
+.container {}
+
+.blur {
+    -webkit-box-shadow: 0 0 15px rgba(188, 191, 200, 0.1), 0 0 15px rgba(188, 191, 200, 0.2) !important;
+    box-shadow        : 0 0 15px rgba(188, 191, 200, 0.1), 0 0 15px rgba(188, 191, 200, 0.2) !important;
+}
+
+.mr-5 {
+    margin-right: 5px !important;
+}
+
+.va-middle {
+    vertical-align: middle !important;
+}
+
+.bg-img {
+    background-repeat  : no-repeat;
+    background-size    : cover;
+    background-position: center center;
+}
+
+.timeline {
+    list-style: none;
+    padding   : 15px 0;
+    position  : relative;
+}
+
+.timeline:before {
+    top             : 0;
+    bottom          : 0;
+    position        : absolute;
+    content         : " ";
+    width           : 4px;
+    background-color: #dddfe6;
+    left            : 50%;
+    margin-left     : -2px;
+}
+
+.timeline.w-icons:before {
+    top             : 0;
+    bottom          : 0;
+    position        : absolute;
+    content         : " ";
+    width           : 3px;
+    background-color: #dddfe6;
+    left            : 50%;
+    margin-left     : -1.5px;
+}
+
+.timeline>li {
+    margin-bottom: 28px;
+    position     : relative;
+}
+
+.timeline>li:before,
+.timeline>li:after {
+    content: " ";
+    display: table;
+}
+
+.timeline>li:after {
+    clear: both;
+}
+
+.timeline>li:before,
+.timeline>li:after {
+    content: " ";
+    display: table;
+}
+
+.timeline>li:after {
+    clear: both;
+}
+
+.timeline>li>.timeline-panel {
+    background-color  : #fff;
+    width             : 50%;
+    float             : left;
+    border-radius     : 5px;
+    padding           : 10px;
+    position          : relative;
+    -moz-transition   : 0.2s ease-in-out;
+    -o-transition     : 0.2s ease-in-out;
+    -webkit-transition: 0.2s ease-in-out;
+    transition        : 0.2s ease-in-out;
+    box-shadow        : 0 2px 12px rgba(188, 191, 200, 0.1), 0 2px 12px rgba(188, 191, 200, 0.2) !important;
+}
+
+.timeline>li>.timeline-panel:hover {
+    transform         : translateY(-3px);
+    -webkit-box-shadow: 0 3px 20px rgba(188, 191, 200, 0.1), 0 3px 20px rgba(188, 191, 200, 0.3) !important;
+    box-shadow        : 0 3px 20px rgba(188, 191, 200, 0.1), 0 3px 20px rgba(188, 191, 200, 0.3) !important;
+}
+
+.timeline>li:not(.timeline-inverted) {
+    padding-right: 50px;
+
+}
+
+.timeline>li.timeline-inverted {
+    padding-left: 50px;
+}
+
+.timeline.w-icons>li:not(.timeline-inverted) {
+    padding-right: 85px;
+}
+
+.timeline.w-icons>li.timeline-inverted {
+    padding-left: 85px;
+}
+
+.timeline>li>.timeline-badge {
+    color        : #fff;
+    background   : #dddfe6;
+    width        : 25px;
+    height       : 25px;
+    line-height  : 15px !important;
+    font-size    : 0.75rem;
+    text-align   : center;
+    position     : absolute;
+    top          : 20px;
+    left         : 50%;
+    margin-left  : -12.5px;
+    z-index      : 100;
+    border       : 5px solid #fff;
+    border-radius: 50%;
+    box-shadow   : 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.timeline.w-icons>li>.timeline-badge {
+    color        : #fff;
+    background   : #5d3997;
+    width        : 60px;
+    height       : 60px;
+    line-height  : 65px !important;
+    font-size    : 1rem;
+    text-align   : center;
+    position     : absolute;
+    top          : 20px;
+    left         : 50%;
+    margin-left  : -30px;
+    z-index      : 100;
+    border       : 0;
+    border-radius: 50%;
+    box-shadow   : 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.timeline.w-icons>li>.timeline-badge .material-icons {
+    line-height: 60px !important;
+}
+
+.timeline>li.timeline-inverted>.timeline-badge {
+    top: 0;
+}
+
+.timeline>li.timeline-inverted>.timeline-panel {
+    float: right;
+}
+
+ul.timeline {
+    margin-bottom: 0;
+}
+
+.btn-download-file {
+    border-radius   : 5px;
+    font-size       : 20px;
+    margin-top      : 4rem;
+    margin-right    : 4.2rem;
+    width           : 14rem;
+    background-color: #06BBCC;
+    border          : 2px solid transparent;
+    transition      : all 0.3 ease;
+    color           : #fff;
+    caret-color     : transparent;
+}
+
+.btn-download-file:hover {
+    background-color: #04A4B1;
+    border          : 2px solid transparent;
+}
+
+.btn-detail-file {
+    border-radius   : 5px;
+    font-size       : 20px;
+    margin-top      : 4rem;
+    margin-left     : 4rem;
+    width           : 14rem;
+    background-color: #06BBCC;
+    border          : 2px solid transparent;
+    transition      : all 0.3 ease;
+    color           : #fff;
+    caret-color     : transparent;
+}
+
+.btn-detail-file:hover {
+    background-color: #04A4B1;
+    border          : 2px solid transparent;
+}

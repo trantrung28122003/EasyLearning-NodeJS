@@ -1,0 +1,10 @@
+.admin_container {
+  display: flex;
+  gap: 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

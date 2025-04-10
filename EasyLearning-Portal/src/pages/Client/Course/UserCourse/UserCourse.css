@@ -1,0 +1,604 @@
+.event-schedule-area .section-title .title-text {
+  margin-bottom: 50px;
+}
+
+.text-header {
+  text-align: center;
+  background: url(https://sinhvien.hutech.edu.vn/assets/img/mybg.png) #fff;
+}
+
+.event-schedule-area .tab-area .nav-tabs {
+  border-bottom: inherit;
+}
+
+.event-schedule-area .tab-area .nav {
+  border-bottom        : inherit;
+  display              : -webkit-box;
+  display              : -ms-flexbox;
+  display              : flex;
+  -webkit-box-orient   : vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction   : column;
+  flex-direction       : column;
+  margin-top           : 80px;
+}
+
+.event-schedule-area .tab-area .nav-item {
+  margin-bottom: 75px;
+}
+
+.event-schedule-area .tab-area .nav-item .nav-link {
+  text-align    : center;
+  font-size     : 22px;
+  color         : #333;
+  font-weight   : 600;
+  border-radius : inherit;
+  border        : inherit;
+  padding       : 0px;
+  text-transform: capitalize !important;
+}
+
+.event-schedule-area .tab-area .nav-item .nav-link.active {
+  color           : #4125dd;
+  background-color: transparent;
+}
+
+.event-schedule-area .tab-area .tab-content .table {
+  margin-bottom: 0;
+  width        : 80%;
+}
+
+.event-schedule-area .tab-area .tab-content .table thead td,
+.event-schedule-area .tab-area .tab-content .table thead th {
+  border-bottom-width: 1px;
+  font-size          : 20px;
+  font-weight        : 600;
+  color              : #252525;
+}
+
+.event-schedule-area .tab-area .tab-content .table td,
+.event-schedule-area .tab-area .tab-content .table th {
+  border      : 1px solid #b7b7b7;
+  padding-left: 30px;
+}
+
+.event-schedule-area .tab-area .tab-content .table tbody th .heading,
+.event-schedule-area .tab-area .tab-content .table tbody td .heading {
+  font-size     : 16px;
+  text-transform: capitalize;
+  margin-bottom : 16px;
+  font-weight   : 500;
+  color         : #252525;
+  margin-bottom : 6px;
+}
+
+.event-schedule-area .tab-area .tab-content .table tbody th span,
+.event-schedule-area .tab-area .tab-content .table tbody td span {
+  color         : #4125dd;
+  font-size     : 18px;
+  text-transform: uppercase;
+  margin-bottom : 6px;
+  display       : block;
+}
+
+.event-schedule-area .tab-area .tab-content .table tbody th span.date,
+.event-schedule-area .tab-area .tab-content .table tbody td span.date {
+  color      : #656565;
+  font-size  : 14px;
+  font-weight: 500;
+  margin-top : 15px;
+}
+
+.event-schedule-area .tab-area .tab-content .table tbody th p {
+  font-size  : 14px;
+  margin     : 0;
+  font-weight: normal;
+}
+
+/* h2.h2-text-center {
+  margin: 0rem 0 !important;
+} */
+
+.event-schedule-area-two .section-title .title-text h2 {
+  margin: 0px 0 15px;
+}
+
+.event-schedule-area-two ul.custom-tab {
+  -webkit-box-pack: center;
+  -ms-flex-pack   : center;
+  justify-content : center;
+  border-bottom   : 1px solid #dee2e6;
+  margin-bottom   : 30px;
+}
+
+.event-schedule-area-two ul.custom-tab li {
+  margin-right: 70px;
+  position    : relative;
+}
+
+.event-schedule-area-two ul.custom-tab li a {
+  color         : #252525;
+  font-size     : 25px;
+  line-height   : 25px;
+  font-weight   : 600;
+  text-transform: capitalize;
+  padding       : 35px 0;
+  position      : relative;
+}
+
+.event-schedule-area-two ul.custom-tab li a:hover:before {
+  width: 100%;
+}
+
+.event-schedule-area-two ul.custom-tab li a:before {
+  position          : absolute;
+  left              : 0;
+  bottom            : 0;
+  content           : "";
+  background        : #4125dd;
+  width             : 0;
+  height            : 2px;
+  -webkit-transition: all 0.4s;
+  -o-transition     : all 0.4s;
+  transition        : all 0.4s;
+}
+
+.event-schedule-area-two ul.custom-tab li a.active {
+  color: #4125dd;
+}
+
+.event-schedule-area-two .primary-btn {
+  margin-top: 40px;
+}
+
+.event-schedule-area-two .tab-content .table {
+  -webkit-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+  box-shadow        : 0 1px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom     : 0;
+}
+
+.event-schedule-area-two .tab-content .table thead {
+  background-color: #06bbcc;
+  color           : #fff;
+  font-size       : 20px;
+}
+
+.event-schedule-area-two .tab-content .table thead tr th {
+  padding: 20px;
+  border : 0;
+}
+
+.event-schedule-area-two .tab-content .table tbody {
+  background: #fff;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr.inner-box {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr th {
+  border        : 0;
+  padding       : 30px 20px;
+  vertical-align: middle;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr th .event-date {
+  color     : #252525;
+  text-align: center;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr th .event-date span {
+  font-size  : 50px;
+  line-height: 50px;
+  font-weight: normal;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td {
+  padding       : 30px 20px;
+  vertical-align: middle;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .r-no span {
+  color: #252525;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap h3 a {
+  font-size         : 20px;
+  line-height       : 20px;
+  color             : #cf057c;
+  -webkit-transition: all 0.4s;
+  -o-transition     : all 0.4s;
+  transition        : all 0.4s;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap h3 a:hover {
+  color: #4125dd;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .categories {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin : 10px 0;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .categories a {
+  color             : #252525;
+  font-size         : 16px;
+  margin-left       : 10px;
+  -webkit-transition: all 0.4s;
+  -o-transition     : all 0.4s;
+  transition        : all 0.4s;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .categories a:before {
+  content      : "\f07b";
+  font-family  : fontawesome;
+  padding-right: 5px;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .time span {
+  color: #252525;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .organizers {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin : 10px 0;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .organizers a {
+  color             : #4125dd;
+  font-size         : 16px;
+  -webkit-transition: all 0.4s;
+  -o-transition     : all 0.4s;
+  transition        : all 0.4s;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .organizers a:hover {
+  color: #4125dd;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-wrap .organizers a:before {
+  content      : "\f007";
+  font-family  : fontawesome;
+  padding-right: 5px;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .primary-btn {
+  margin-top: 0;
+  text-align: center;
+}
+
+.event-schedule-area-two .tab-content .table tbody tr td .event-img img {
+  width        : 100px;
+  height       : 100px;
+  border-radius: 8px;
+}
+
+.event-details {
+  position        : fixed;
+  top             : 50%;
+  left            : 50%;
+  transform       : translate(-50%, -50%);
+  z-index         : 9999;
+  /* Đảm bảo chi tiết sự kiện nằm trên cùng */
+  background-color: #ffffff;
+  /* Màu nền */
+  padding         : 20px;
+  border-radius   : 10px;
+  box-shadow      : 0 0 30px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng */
+}
+
+@media (min-width: 1025px) {
+  .h-custom {
+    height: 100vh !important;
+  }
+}
+
+.horizontal-timeline .items {
+  border-top: 2px solid #ddd;
+}
+
+.horizontal-timeline .items .items-list {
+  position    : relative;
+  margin-right: 0;
+}
+
+.horizontal-timeline .items .items-list:before {
+  content         : "";
+  position        : absolute;
+  height          : 8px;
+  width           : 8px;
+  border-radius   : 50%;
+  background-color: #ddd;
+  top             : 0;
+  margin-top      : -5px;
+}
+
+.horizontal-timeline .items .items-list {
+  padding-top: 15px;
+}
+
+.product_list {
+  border        : 1px solid #d1d1d1;
+  border-radius : 8px;
+  padding       : 20px;
+  padding-bottom: 5px;
+  margin-bottom : 30px;
+  box-shadow    : 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.product_list .card-header {
+  border-radius   : 0;
+  padding         : 0;
+  background-color: transparent;
+  border          : none;
+  margin-bottom   : 20px;
+}
+
+.product_list .card-header .btn-link {
+  width           : 100%;
+  padding         : 0;
+  text-align      : left;
+  border          : none;
+  border-radius   : 0;
+  position        : relative;
+  background-color: #ffffff;
+  text-decoration : none;
+  box-shadow      : none;
+}
+
+.product_list .card-header .btn-link:hover,
+.product_list .card-header .btn-link:focus {
+  text-decoration: none;
+  box-shadow     : none;
+}
+
+.product_list .card-header .btn-link.collapsed:after {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.product_list .card-header .btn-link .list_block {
+  display    : flex;
+  flex-wrap  : wrap;
+  align-items: center;
+  width      : 100%;
+}
+
+.product_list .card-header .btn-link .list_block .list_image {
+  width       : 135px;
+  margin-right: 25px;
+}
+
+.product_list .card-header .btn-link .list_block .list_text {
+  width        : calc(100% - 160px);
+  padding-right: 40px;
+}
+
+.product_list .card-header .btn-link .list_block .list_text .subtitle {
+  margin-bottom: 4px;
+  color        : #06bbcc;
+  font-weight  : 500;
+  font-size    : 16px;
+}
+
+.product_list .card-header .btn-link .list_block .list_text .title {
+  margin-bottom: 10px;
+}
+
+.product_list .card-header .btn-link .list_block .list_text .text {
+  font-size: 14px;
+  color    : #06bbcc;
+  margin   : 0;
+}
+
+.product_list .card-body {
+  padding       : 15px;
+  padding-bottom: 0;
+  padding-top   : 0;
+}
+
+.product_list .list_block_item {
+  border       : 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding      : 20px 10px;
+  margin-bottom: 30px;
+  text-align   : center;
+}
+
+.product_list .list_block_item a {
+  display: block;
+}
+
+.product_list .list_block_item a img {
+  width        : 70px;
+  margin-bottom: 10px;
+  height       : 60px;
+}
+
+.product_list .list_block_item a .category {
+  color        : #7f7f7f;
+  font-size    : 14px;
+  margin-bottom: 15px;
+  line-height  : normal;
+  font-weight  : 500;
+}
+
+.product_list .list_block_item a .title {
+  line-height  : normal;
+  margin-bottom: 10px;
+  font-size    : 16px;
+}
+
+.product_list .list_block_item a .title strong {
+  color: #06bbcc;
+}
+
+.image-fit-contain {
+  width          : 100%;
+  height         : 100%;
+  object-fit     : contain;
+  object-position: center;
+}
+
+.a {
+  text-decoration: none;
+}
+
+.circular-progress {
+  position       : relative;
+  height         : 45px;
+  width          : 45px;
+  border-radius  : 50%;
+  background     : conic-gradient(#38c9d6 3.6deg, #808080 0deg);
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+}
+
+.circular-progress::before {
+  content         : "";
+  position        : absolute;
+  height          : 40px;
+  width           : 40px;
+  border-radius   : 50%;
+  background-color: white;
+}
+
+.progress-value {
+  position   : relative;
+  font-size  : 16px;
+  font-weight: 600;
+  color      : #38c9d6;
+}
+
+.page-content-user-course {
+  background: url(https://sinhvien.hutech.edu.vn/assets/img/mybg.png) #fff;
+  min-height: 100vh;
+}
+
+.centered-content {
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  justify-content: center;
+  text-align     : center;
+  height         : 100%;
+  padding        : 20px;
+  margin-bottom  : 150px;
+}
+
+
+.explore-course-btn {
+  padding         : 10px 30px;
+  font-size       : 18px;
+  border-radius   : 25px;
+  background-color: #06BBCC;
+  color           : #fff;
+  border          : none;
+  transition      : background-color 0.3s ease, transform 0.2s ease;
+  cursor          : pointer;
+
+}
+
+.explore-course-btn:hover {
+  background-color: #049ba4;
+  transform       : scale(1.05);
+}
+
+.centered-content .explore-course-btn {
+  display   : inline-block;
+  margin-top: 20px;
+  text-align: center;
+  width     : auto;
+  min-width : 800px;
+}
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+.product_list .card-header .btn-link:hover,
+.product_list .card-header .btn-link:focus {
+  text-decoration: none;
+  box-shadow     : none;
+}
+
+.product_list .card-header .btn-link:after {
+  content         : "\f078";
+  font-family     : "Font Awesome 5 Free";
+  font-weight     : 900;
+  position        : absolute;
+  right           : 10px;
+  top             : 50%;
+  transform       : translateY(-50%) rotate(180deg);
+  line-height     : normal;
+  width           : 40px;
+  height          : 40px;
+  background-color: #06BBCC;
+  border-radius   : 50%;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  color           : #ffffff;
+  font-size       : 20px;
+  transition      : all 0.3s ease-in-out;
+  background-image: none;
+}
+
+
+.product_list .card-header .btn-link:hover:after {
+  background-color: #04A2A7;
+  transform       : translateY(-50%) rotate(180deg);
+  color           : #ffffff;
+}
+
+.product_list .card-header .btn-link.collapsed:after {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+
+
+
+
+
+.image-container {
+  position: relative;
+  display : inline-block;
+  cursor  : pointer;
+}
+
+.image-container img {
+  display: block;
+  width  : 120px;
+  height : auto;
+}
+
+.play-button-overlay {
+  position        : absolute;
+  top             : 0;
+  left            : 0;
+  right           : 0;
+  bottom          : 0;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity         : 0;
+  transition      : opacity 0.3s ease;
+}
+
+.image-container:hover .play-button-overlay {
+  opacity: 1;
+}
+
+.play-icon {
+  width     : 60px;
+  height    : 60px;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover .play-icon {
+  transform: scale(1.2);
+}

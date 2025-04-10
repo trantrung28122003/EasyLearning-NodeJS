@@ -1,0 +1,12 @@
+"use strict";
+// export const SECRET_KEY = "NNPTUDS6";
+// export const SECRET_KEY_COOKIE = "NNPTUDS6";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.VALIDATOR_ERROR_FULLNAME = exports.VALIDATOR_ERROR_PASSWORD = exports.VALIDATOR_ERROR_USERNAME = exports.VALIDATOR_ERROR_EMAIL = exports.ADMIN_PERMISSION = exports.MOD_PERMISSION = exports.USER_PERMISSION = void 0;
+exports.USER_PERMISSION = ["USER", "MOD", "ADMIN"];
+exports.MOD_PERMISSION = ["MOD", "ADMIN"];
+exports.ADMIN_PERMISSION = ["ADMIN"];
+exports.VALIDATOR_ERROR_EMAIL = "Email không hợp lệ. Định dạng đúng: xxx@domain";
+exports.VALIDATOR_ERROR_USERNAME = "Tên người dùng phải có ít nhất %d ký tự.";
+exports.VALIDATOR_ERROR_PASSWORD = "Mật khẩu phải có ít nhất %d ký tự, bao gồm ít nhất %d chữ thường, %d chữ in hoa, %d chữ số và %d ký tự đặc biệt.";
+exports.VALIDATOR_ERROR_FULLNAME = "Họ tên phải có ít nhất %d ký tự.";

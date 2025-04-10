@@ -1,0 +1,43 @@
+.course-name {
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+.favorite-icon {
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 30px;
+    color: #06BBCC; 
+    transition: color 0.3s ease, font-weight 0.3s ease;
+    z-index: 999;
+  }
+
+  .favorite-icon i {
+    transition: color 0.3s ease;
+   
+  }
+  .favorite-icon:hover .far {
+    color: #06BBCC; 
+    font-weight: bold; 
+    font-family: "Font Awesome 5 Free"; 
+    content: "\f004"; 
+  }
+  
+  .favorite-icon:hover .fas {
+    color: #028C99;
+  }
+
+
+  
+  
+
+
+  
+  
+  
