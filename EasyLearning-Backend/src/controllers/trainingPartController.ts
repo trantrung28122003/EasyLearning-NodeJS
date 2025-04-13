@@ -6,7 +6,9 @@ import { Types } from "mongoose";
 export const getAllTrainingParts = async () => {
     return await TrainingPart.find({ isDeleted: false });
 };
-
+export const getTrainingPartsById = async (trainingPartId: string) => {
+    return await TrainingPart.findById(trainingPartId);
+};
 export const getTrainingPartsByUser = async (userId: string) => {
     return await TrainingPart.find({ createdBy: userId, isDeleted: false });
 };

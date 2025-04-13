@@ -24,10 +24,11 @@ const CartOverlay: React.FC<CartOverlayProps> = ({
   const navigate = useNavigate();
   const doGetShoppingCart = () => {
     setIsLoading(true);
-    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "get")
+   
+    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "GET")
       .then((res) => {
         if (res.status === HTTP_OK) {
-          const shoppingCart: ShoppingCart = res.data;
+          const shoppingCart: ShoppingCart = res.data.result;
           setShoppingCart(shoppingCart);
         }
       })
@@ -37,6 +38,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({
   useEffect(() => {
     if (isOpen) {
       doGetShoppingCart();
+      console.log("shoppingcart tỏng oveer nè", shoppingCart);
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
@@ -81,7 +83,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({
                 Danh sách các khóa học trong giỏ hàng của bạn
               </h3>
               <div className="cart-overlay-shoppingCarts">
-                {shoppingCart.shoppingCartItemResponses.map((item, index) => (
+                {shoppingCart.shoppingCartItems && shoppingCart.shoppingCartItems.map((item, index) => (
                   <div key={index} className="cart-overlay-shoppingCart-card">
                     <img src={item.imageUrl} />
                     <div>
@@ -103,6 +105,7 @@ const CartOverlay: React.FC<CartOverlayProps> = ({
           <hr />
           <div className="cart-overlay-total">
             <h3>
+        
               Tổng: <span>{formatCurrency(shoppingCart?.totalPrice)}₫</span>{" "}
               {shoppingCart?.totalPrice != shoppingCart?.totalPriceDiscount && (
                 <del>{formatCurrency(shoppingCart?.totalPriceDiscount)}₫</del>

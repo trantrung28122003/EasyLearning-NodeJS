@@ -28,7 +28,7 @@ const Home: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const doGetCourses = () => {
-    DoCallAPIWithOutToken(GET_COURSES_MOST_REGISTERED, "get").then((res) => {
+    DoCallAPIWithOutToken(GET_COURSES_MOST_REGISTERED, "GET").then((res) => {
       if (res.status === HTTP_OK) {
         const data: ApplicationResponse<Course[]> = res.data;
         setCourses(data.result);
@@ -71,6 +71,7 @@ const Home: React.FC = () => {
         if (response.status === HTTP_OK) {
           const data: ApplicationResponse<Feedback[]> = response.data;
           setFeedbacks(data.result);
+      
         }
       }
     );
@@ -155,7 +156,7 @@ const Home: React.FC = () => {
                         >
                           <h5 className="m-0">{categories[0].categoryName}</h5>
                           <small className="text-primary">
-                            {categories[0].coursesDetails?.length || 0} Khóa học
+                            {categories[0].totalCourses || 0} Khóa học
                           </small>
                         </div>
                       </a>
@@ -177,7 +178,7 @@ const Home: React.FC = () => {
                         >
                           <h5 className="m-0">{categories[1].categoryName}</h5>
                           <small className="text-primary">
-                            {categories[1].coursesDetails?.length || 0} Khóa học
+                            {categories[1].totalCourses || 0} Khóa học
                           </small>
                         </div>
                       </a>
@@ -199,7 +200,7 @@ const Home: React.FC = () => {
                         >
                           <h5 className="m-0">{categories[2].categoryName}</h5>
                           <small className="text-primary">
-                            {categories[2].coursesDetails?.length || 0} Khóa học
+                            {categories[2].totalCourses || 0} Khóa học
                           </small>
                         </div>
                       </a>
@@ -229,7 +230,7 @@ const Home: React.FC = () => {
                     >
                       <h5 className="m-0">{categories[3].categoryName}</h5>
                       <small className="text-primary">
-                        {categories[3].coursesDetails?.length || 0} Khóa học
+                        {categories[3].totalCourses || 0} Khóa học
                       </small>
                     </div>
                   </a>
@@ -305,14 +306,14 @@ const Home: React.FC = () => {
             autoPlay
             dotData
           >
-            {feedbacks.map((feeback, index) => (
+            {feedbacks && feedbacks.map((feeback, index) => (
               <div className="testimonial-item text-center" key={index}>
                 <img
                   className="border rounded-circle p-2 mx-auto mb-3"
                   src={feeback.avatar}
                   style={{ width: "80px", height: "80px" }}
                 />
-                <h5 className="mb-0">{feeback.fullNameUser}</h5>
+                <h5 className="mb-0">{feeback.fullName}</h5>
                 <p>Học viên</p>
                 <div className="testimonial-text bg-light text-center p-4">
                   <p className="mb-0">{feeback.content}</p>

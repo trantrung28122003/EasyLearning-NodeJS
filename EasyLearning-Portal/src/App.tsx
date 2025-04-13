@@ -1,9 +1,12 @@
+import { WebSocketProvider } from "./contexts/WebSocketContext";
 import ApplicationRoutes from "./routes/ApplicationRoutes";
 
 const App = () => {
   return (
     <>
-      <ApplicationRoutes />
+      <WebSocketProvider>
+        <ApplicationRoutes />
+      </WebSocketProvider>
     </>
   );
 };

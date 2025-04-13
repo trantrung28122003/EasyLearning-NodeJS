@@ -15,6 +15,6 @@ export interface Category {
   dateCreate: string;
   dateChange: string;
   changedBy: string;
-  coursesDetails: CoursesDetail[];
+  totalCourses: number
   deleted: boolean;
 }

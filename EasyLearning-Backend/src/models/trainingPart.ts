@@ -19,6 +19,8 @@ export interface ITrainingPart extends Document {
     createdBy:string;
     changedBy?: string;
     isDeleted: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const trainingPartSchema: Schema<ITrainingPart> = new Schema({

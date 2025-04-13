@@ -1,5 +1,5 @@
 import { uploadToCloudinary } from '../utils/cloudinary'; 
-
+import slugify from 'slugify';
 export const handleAvatarUpload = async (file?: Express.Multer.File): Promise<string> => {
   const defaultUrl = 'https://res.cloudinary.com/demo/image/upload/v123456789/default_avatar.png';
   if (!file) return defaultUrl;
@@ -27,6 +27,26 @@ export const handleVideoUpload = async (file?: Express.Multer.File): Promise<str
     return result.secure_url || '';
   } catch (error) {
       console.error('Error uploading video:', error);
+    return '';
+  }
+};
+
+export const uploadPdf = async (
+  file?: Express.Multer.File,
+  fullName?: string
+): Promise< string> => {
+  if (!file || !fullName) return '';
+
+  try {
+    const cleanName = slugify(fullName, { lower: false, replacement: '', remove: /[*+~.()'"!:@]/g });
+
+    const pdfPublicId = `Certificate_${cleanName}s`;  
+    const pdfResult: any = await uploadToCloudinary(file.buffer, 'elearning', 'image', pdfPublicId);
+    const pdfUrl = pdfResult.secure_url;
+    return pdfUrl;
+
+  } catch (error) {
+    console.error('Error uploading PDF and generating image:', error);
     return '';
   }
 };

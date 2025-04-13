@@ -33,14 +33,12 @@ const Navbar: React.FC = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [currentUser, setCurrentUser] = useState<User | null>(getUserInfo());
   const doGetShoppingCart = () => {
-    // setIsLoading(true);
-    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "get").then((res) => {
+    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "GET").then((res) => {
       if (res.status === HTTP_OK) {
-        const shoppingCart: ShoppingCart = res.data;
-        setCartItemsCount(shoppingCart.shoppingCartItemResponses.length);
+        const shoppingCart: ShoppingCart = res.data.result;
+        setCartItemsCount(shoppingCart.shoppingCartItems.length);
       }
     });
-    //.finally(() => setIsLoading(false));
   };
 
   const FetchNotificationByUser = async () => {

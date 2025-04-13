@@ -18,6 +18,32 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/top-four-most-category', async (req: Request, res: Response) => {
+  try {
+    const result = await CategoryController.findTop4BySortOrderNotNull();
+    return responseSuccess(res, result);
+  } catch (err: any) {
+    return responseError(res, HttpCode.INTERNAL_SERVER, err.message);
+  }
+});
+router.get('/get-all-category-with-course', async (req: Request, res: Response) => {
+  try {
+    const result = await CategoryController.getAllCategoryWithCourse();
+    return responseSuccess(res, result);
+  } catch (err: any) {
+    return responseError(res, HttpCode.INTERNAL_SERVER, err.message);
+  }
+});
+
+router.get('/get-category-with-course', async (req: Request, res: Response) => {
+  try {
+    const categoryId = req.query.categoryId as string;
+    const result = await CategoryController.getCategoryWithCourse(categoryId);
+    return responseSuccess(res, result);
+  } catch (err: any) {
+    return responseError(res, HttpCode.INTERNAL_SERVER, err.message);
+  }
+});
 
 
 router.post('/', check_authentication, check_authorization(constants.MOD_PERMISSION), upload.single('file'), async (req: Request, res: Response) => {

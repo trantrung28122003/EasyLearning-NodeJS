@@ -2,7 +2,7 @@ import { EventSlim } from "./Event";
 import { Feedback } from "./FeedBack";
 
 export interface Course {
-  id: string;
+  _id: string;
   courseName: string;
   courseDescription: string;
   coursePrice: number;
@@ -51,7 +51,7 @@ export interface TrainingPart {
   dateCreate?: string | string;
   dateChange: string;
   changedBy: string;
-  free: boolean;
+  isFree: boolean;
   deleted: boolean;
 }
 export interface CoursesDetail {

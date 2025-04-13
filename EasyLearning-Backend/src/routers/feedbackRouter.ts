@@ -7,8 +7,6 @@ import { FeedbackRequest } from '../dtos/request/feedbackRequest';
 
 const router = Router();
 
-
-
 router.get('/:courseId', check_authentication, async (req: Request, res: Response) => {
   try {
     const {courseId} = req.params;

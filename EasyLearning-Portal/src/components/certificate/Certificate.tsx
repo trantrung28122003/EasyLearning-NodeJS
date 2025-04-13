@@ -8,7 +8,7 @@ interface certificateProp {
 }
 
 const Certificate: React.FC<certificateProp> = ({ certificate }) => {
-  const fetchedPdfUrl = certificate.certificateUrl;
+  const fetchedPdfUrl = certificate.certificatePDFUrl;
   const imageUrl = fetchedPdfUrl.replace("/upload/", "/upload/f_jpg/");
   console.log(imageUrl);
 

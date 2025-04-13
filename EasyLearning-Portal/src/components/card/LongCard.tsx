@@ -75,9 +75,9 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
     setIsLoadingAddCart(true);
     try {
       const URL = ADD_COURSE_FREE + `?courseId=${courseId}`;
-      const response = await DoCallAPIWithToken(URL, "GET");
+      const response = await DoCallAPIWithToken(URL, "POST");
       if (response.status === HTTP_OK && response.data.code === 200) {
-        fetchCourseStatus(course.id);
+        fetchCourseStatus(course._id);
       }
     } catch (error) {
       console.error("Đã xảy ra lỗi", error);
@@ -104,7 +104,7 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
           if (res.data.code === HTTP_OK) {
             setIsOverlayOpen(true);
             setAddShoppingCartItem(res.data.result);
-            fetchCourseStatus(course.id);
+            fetchCourseStatus(course._id);
           } else if (res.data.code === 400) {
             setErrorMessage(
               "Khóa học đã hết hạn đăng kí và số lượng đăng kí đã đầy"
@@ -127,7 +127,7 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
   const toggleFavorite = async () => {
     setIsLoadingFavorite(true);
     try {
-      const URL = TOGGLE_FAVORITE_COURSE + `?courseId=${course.id}`;
+      const URL = TOGGLE_FAVORITE_COURSE + `?courseId=${course._id}`;
       const response = await DoCallAPIWithToken(URL, "POST");
       if (response.status === HTTP_OK) {
         setIsFavorited(response.data.result);
@@ -145,11 +145,11 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
   };
 
   useEffect(() => {
-    if (course?.id) {
-      fetchCourseDetail(course.id);
-      fetchCourseStatus(course.id);
+    if (course?._id) {
+      fetchCourseDetail(course._id);
+      fetchCourseStatus(course._id);
     }
-  }, [course.id]);
+  }, [course._id]);
 
   return (
     <>
@@ -163,10 +163,10 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
 
       <div
         className="course-card"
-        onClick={() => handleNavigateToCourseDetail(course.id)}
+        onClick={() => handleNavigateToCourseDetail(course._id)}
       >
         <div
-          key={course.id}
+          key={course._id}
           className="mb-3 p-3 border rounded d-flex align-items-center justify-content-between"
         >
           <div
@@ -235,7 +235,7 @@ const LongCard: React.FC<CardProps> = ({ course }) => {
           </ul>
           <div className="d-flex justify-content-center">
             <button
-              onClick={() => addToCart(course.id)}
+              onClick={() => addToCart(course._id)}
               className="add-to-cart"
             >
               {isLoadingAddCart ? (

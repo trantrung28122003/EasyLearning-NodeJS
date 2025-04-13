@@ -13,19 +13,12 @@ export const getOrderDetailById = async (id: string) => {
   return orderDetail;
 };
 
-export const createOrderDetail = async (data: any, session: any) => {
-session.startTransaction();
+export const createOrderDetail = async (data: any) => {
   try {
     const newOrderDetail = new OrderDetail(data);
-    const result = await newOrderDetail.save({ session });
-    await session.commitTransaction();
-    session.endSession();
+    const result = await newOrderDetail.save();
     return result;
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
     throw error;
   }
-
-  
 };

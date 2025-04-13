@@ -10,6 +10,7 @@ export const toFeedbackInfoResponse = async (feedback: IFeedback): Promise<Feedb
         id: feedback._id!.toString(),
         courseId: feedback.course.toString(),
         userId: user._id!.toString(),
+        typeUser: 'Khách hàng',
         avatar: user?.imageUrl || '',
         fullName: user?.fullName || '',
         content: feedback.feedbackContent,

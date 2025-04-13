@@ -1,23 +1,24 @@
-import { LoginResponse } from "../model/Authentication";
+
 import { User } from "../model/User";
 
 const isUserLogin = (): boolean => {
-  if (localStorage.getItem("authentication") != null) {
-    const authenticationInfo: LoginResponse = JSON.parse(
-      localStorage.getItem("authentication") || ""
-    );
-    return authenticationInfo.authenticated || false;
-  } else {
+  const authStr = localStorage.getItem("authentication");
+  if (!authStr) return false;
+
+  try {
+    const auth = JSON.parse(authStr);
+    return !!auth;
+  } catch (error) {
     return false;
   }
 };
 
 const getCredentials = (): string => {
   if (localStorage.getItem("authentication") != null) {
-    const authenticationInfo: LoginResponse = JSON.parse(
+    const authenticationInfo = JSON.parse(
       localStorage.getItem("authentication") || ""
     );
-    return authenticationInfo.token || "";
+    return authenticationInfo || "";
   } else {
     return "";
   }
@@ -33,12 +34,13 @@ const getUserInfo = () => {
 };
 
 const hasAdminRole = () => {
-  if (localStorage.getItem("user_info") != null) {
-    const res: User = JSON.parse(localStorage.getItem("user_info") || "");
-    return res.roles.some((role) => role.name === "ADMIN");
-  } else {
-    return false;
+  const userInfoStr = localStorage.getItem("user_info");
+  if (userInfoStr) {
+    const res = JSON.parse(userInfoStr);
+    return res.role === "ADMIN";
   }
+  return false;
 };
+
 
 export { isUserLogin, getUserInfo, getCredentials, hasAdminRole };

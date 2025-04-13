@@ -34,6 +34,7 @@ export const createShoppingCartItem = async (courseId: string, currentUserId: st
         cartItemName: course.courseName,
         cartItemPrice: course.coursePrice,
         imageUrl: course.imageUrl,
+        quantity: 1,
         cartItemPriceDiscount: coursePriceDiscount,
         shoppingCart: shoppingCart._id,
         course: course._id,
@@ -44,8 +45,8 @@ export const createShoppingCartItem = async (courseId: string, currentUserId: st
     return await shoppingCartItem.save();
 };
 
-export const deleteShoppingCartItem = async (id: string, session: any) => {
-    await ShoppingCartItem.findByIdAndDelete(id, { session });
+export const deleteShoppingCartItem = async (id: string) => {
+    await ShoppingCartItem.findByIdAndDelete(id);
 };
   
 

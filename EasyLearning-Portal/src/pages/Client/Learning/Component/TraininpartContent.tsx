@@ -121,7 +121,7 @@ const TrainingPartContent: React.FC<TrainingPartContentProps> = ({
         if (response.status === HTTP_OK) {
           setNoteContent("");
           setIsNoteForm(false);
-          toast.success("Ghi chú đã được xóa thành công!");
+          // toast.success("Ghi chú đã được xóa thành công!");
           setShowNotificationNote(true);
           setTimeout(() => {
             setShowNotificationNote(false);
@@ -236,6 +236,7 @@ const TrainingPartContent: React.FC<TrainingPartContentProps> = ({
               </strong>
             </span>
           </div>
+          {trainingPart.trainingPartType =="LESSON" &&
           <div className="note">
             <button className="btn-note" onClick={hanldeAddNote}>
               <i className="fas fa-plus"></i>{" "}
@@ -243,6 +244,7 @@ const TrainingPartContent: React.FC<TrainingPartContentProps> = ({
               <strong>{convertSecondsToTime(currentTime)}</strong>
             </button>
           </div>
+          }
           <div className="note">
             <button className="btn-comment" onClick={toggleCommentBox}>
               <i className="fas fa-comment"></i>

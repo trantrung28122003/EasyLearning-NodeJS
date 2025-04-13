@@ -1,7 +1,7 @@
 interface ShoppingCart {
   id: string;
   totalPrice: number;
-  shoppingCartItemResponses: ShoppingCartItem[];
+  shoppingCartItems: ShoppingCartItem[];
   totalPriceDiscount : number;
   userId: string;
   dateCreate?: any;

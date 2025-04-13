@@ -58,7 +58,7 @@ const ExerciseQuiz: React.FC<ExerciseQuizProps> = ({
     const isCorrect = selectedAnswer.isCorrect;
 
     if (isCorrect) {
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
     }
 
     const newAnswer: AnswerDetail = {
@@ -75,10 +75,12 @@ const ExerciseQuiz: React.FC<ExerciseQuizProps> = ({
     if (nextQuestionIndex < questions.length) {
       setCurrentQuestionIndex(nextQuestionIndex);
     } else {
+      const finalScore = isCorrect ? score + 1 : score;
+      setScore(finalScore);
       setIsQuizCompleted(true);
       if (!isComplete) {
         const scoreRequest: ScoreRequest = {
-          correctAnswersCount: score,
+          correctAnswersCount: finalScore,
           totalQuestionsCount: questions.length,
         };
         onQuizCompleted(trainingPartId, scoreRequest);
@@ -97,7 +99,7 @@ const ExerciseQuiz: React.FC<ExerciseQuizProps> = ({
 
   const fetchQuestions = async (trainingPartId: string) => {
     try {
-      const URL = GET_QUESTION_BY_TRAINING_PART + "/" + trainingPartId;
+      const URL = GET_QUESTION_BY_TRAINING_PART + `?trainingPartId=${trainingPartId}`;
       const response = await DoCallAPIWithToken(URL, "GET");
       if (response.status === HTTP_OK) {
         setQuestions(response.data.result);
@@ -109,7 +111,7 @@ const ExerciseQuiz: React.FC<ExerciseQuizProps> = ({
 
   const fetchSavedScore = async (trainingPartId: string) => {
     try {
-      const URL = GET_SAVED_SCORE_BY_TRAINING_PART + "/" + trainingPartId;
+      const URL = GET_SAVED_SCORE_BY_TRAINING_PART + `?trainingPartId=${trainingPartId}`;
       const response = await DoCallAPIWithToken(URL, "GET");
       if (response.status === HTTP_OK) {
         setSavedScore(response.data.result.quizScore);

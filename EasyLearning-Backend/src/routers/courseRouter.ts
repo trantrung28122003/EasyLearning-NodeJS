@@ -20,6 +20,9 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
+
+
+
 router.get('/my-courses', check_authentication, check_authorization(constants.MOD_PERMISSION), async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
@@ -30,27 +33,16 @@ router.get('/my-courses', check_authentication, check_authorization(constants.MO
   }
 });
 
-router.get('/search', async (req: Request<{}, {}, {}, CourseSearchQuery>, res: Response) => {
-  const { query = '', sortBy = '', courseType = '', rating } = req.query;
 
-  try {
-    const results = await CourseController.searchCourses(
-      query,
-      sortBy,
-      courseType,
-      rating,
-    );
-    responseSuccess(res, results, 'Lấy khóa học của bạn thành công');
-  } catch (error: any) {
-    responseError(res, HttpCode.INTERNAL_SERVER, error.message || 'Lỗi khi lấy khóa học');
-  }
-});
+
+
 router.post('/', check_authentication, check_authorization(constants.MOD_PERMISSION), upload.single('file'), async (req: Request, res: Response) => {
     try {
       const user = (req as any).user;
       let imageUrl =  "https://res.cloudinary.com/dofr3xzmi/image/upload/v1744162084/elearning/vworklvnsvwrfdrtcnbs.jpg";
       if(req.file)
         imageUrl = await handleImageUpload(req.file);
+
       const courseData: CourseRequest = {
         ...req.body,
         imageUrl,
@@ -107,6 +99,8 @@ router.delete('/soft-delete/:courseId', check_authentication, check_authorizatio
         return responseError(res, HttpCode.BAD_REQUEST, err.message);
     }
 });
+
+
 
 
 export default router;

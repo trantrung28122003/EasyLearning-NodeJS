@@ -58,12 +58,14 @@ export const getFeedbacksForCoursePublic = async (courseId: string) => {
   const feedbacks: IFeedback[] = await Feedback.find({
     course: courseId,
     isDeleted: false
+    
   });
 
   const feedbackInfos = await Promise.all(feedbacks.map(toFeedbackInfoResponse));
   const feedbackResponse: FeedbackResponse = {
     feedbacks: feedbackInfos,
-    hasGivenFeedback : false
+    hasGivenFeedback : false,
+   
   };
   return feedbackResponse;
 };
@@ -73,13 +75,6 @@ export const getFeedbacksWithFiveRating = async () => {
     feedbackRating: 5,
     isDeleted: false
   });
-
-  const feedbackInfos = await Promise.all(feedbacks.map(toFeedbackInfoResponse));
-  const feedbackResponse: FeedbackResponse = {
-    feedbacks: feedbackInfos,
-    hasGivenFeedback: false 
-  };
-
-  return feedbackResponse;
+  return feedbacks;
 };
 

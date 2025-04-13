@@ -1,4 +1,4 @@
-
+import { Types } from 'mongoose';
 import Course from '../models/course';
 import Category from '../models/category';
 import Order from '../models/oder';
@@ -17,13 +17,8 @@ import * as CourseEventControler from '../controllers/courseEventController'
 import * as DiscountController from '../controllers/discountController'
 import * as UserTrainingProgressController from '../controllers/userTrainingProgressController'
 import { CourseEventResponse } from '../dtos/response/courseEventResponse';
-import { Types } from 'mongoose';
 import { DetailCourseResponse } from '../dtos/response/detailCourseResponse';
-
-
-
-
-
+import { ITrainingPart } from 'src/models/trainingPart';
 
 export const getAllCourses = async () => {
   return await Course.find({ isDeleted: false });
@@ -58,6 +53,12 @@ export const getCourseById = async (id: string) => {
     return course;
 };
 
+export const getTopRegisteredCourses = async (limit: number = 4) => {
+    return await Course.find({ isDeleted: false }) 
+      .sort({ 'registeredUsers.length': -1 }) 
+      .limit(limit)
+  }
+
 export const createCourse = async (data: CourseRequest) => {
     const newCourse = new Course({
         courseName: data.courseName,
@@ -73,7 +74,8 @@ export const createCourse = async (data: CourseRequest) => {
         imageUrl: data.imageUrl || '',
         registrationDeadline: data.registrationDeadline,
         maxAttendees: data.maxAttendees || 0,
-        registeredUsers: data.registeredUsers || 0,
+        registeredUsers: 0,
+        createdBy: data.createdBy,
         changedBy: data.changedBy || 'SYSTEM',
        
     });
@@ -147,16 +149,17 @@ export const deleteCourse = async (id: string) => {
 
 
 
-const getDetailCourse = async (courseId: string) => {
+export const getDetailCourse = async (courseId: string) => {
     try {
         const course = await Course.findById(courseId)
-        .populate('learningOutcomes') 
-        .exec();
+            .populate('learningOutcomes')
+            .exec();
         if (!course) {
             throw new Error(`Không tìm thấy khóa học với: ${courseId}`);
         }
-        const trainingParts = await TrainingPartController.getTrainingPartsByCourseId(course._id!.toString()); 
-        const feedbackReponse  = await FeebackController.getFeedbacksForCoursePublic(course._id!.toString());
+
+        const trainingParts = await TrainingPartController.getTrainingPartsByCourseId(course._id!.toString());
+        const feedbackReponse = await FeebackController.getFeedbacksForCoursePublic(course._id!.toString());
 
         let totalFeedback = feedbackReponse.feedbacks.length;
         let averageRating = 0;
@@ -165,47 +168,48 @@ const getDetailCourse = async (courseId: string) => {
             averageRating = totalRating / totalFeedback;
         }
 
-        let courseEventResponses:CourseEventResponse[] =[] ;
+        const eventMap: Map<string, ITrainingPart[]> = new Map();
+        for (const part of trainingParts) {
+            const eventId = part.courseEvent._id.toString();
+            if (!eventMap.has(eventId)) {
+                eventMap.set(eventId, []);
+            }
+            eventMap.get(eventId)!.push(part);
+        }
 
-        for (const trainingPart of trainingParts) {
-            const courseEvent = await CourseEventControler.getCourseEventsById(trainingPart.courseEvent._id.toString());
+        let courseEventResponses: CourseEventResponse[] = [];
+      
+
+        for (const [eventId, parts] of eventMap.entries()) {
+            const courseEvent = await CourseEventControler.getCourseEventsById(eventId);
             if (courseEvent) {
-                const courseEventResponse : CourseEventResponse = {
+                parts.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+                const courseEventResponse: CourseEventResponse = {
                     id: courseEvent._id!.toString(),
                     courseEventName: courseEvent.eventName,
                     location: courseEvent.location,
                     startTime: courseEvent.dateStart.toString(),
                     endTime: courseEvent.dateEnd.toString(),
-                    trainingParts: [trainingPart],
-                    totalPartsByCourseEvent: trainingParts.filter(p => {
-                        const courseEventId = p.courseEvent._id;
-                        const courseEventObjectId = new Types.ObjectId(courseEvent._id as string); 
-                        return courseEventId.equals(courseEventObjectId);
-                      }).length
-
+                    trainingParts: parts,
+                    totalPartsByCourseEvent: parts.length
                 };
-
-                if (!courseEventResponses.some(p => p.id === courseEventResponse.id)) {
-                    courseEventResponses.push(courseEventResponse);
-                }
+               
+                courseEventResponses.push(courseEventResponse);
             }
         }
 
-        
         courseEventResponses = courseEventResponses.sort((a, b) => {
             const startTimeA = new Date(a.startTime).getTime();
             const startTimeB = new Date(b.startTime).getTime();
             return startTimeA - startTimeB;
         });
-        
 
         const totalLearningTime = calculateTotalLearningTime(courseEventResponses);
-
 
         const coursePriceDiscount = await DiscountController.applyCourseDiscount(courseId, course.coursePrice);
         const finalPrice = coursePriceDiscount || course.coursePrice;
 
-        const detailCourseResponse : DetailCourseResponse = {
+        const detailCourseResponse: DetailCourseResponse = {
             courseId: course._id as string,
             courseName: course.courseName,
             coursePrice: course.coursePrice,
@@ -222,10 +226,11 @@ const getDetailCourse = async (courseId: string) => {
         };
 
         return detailCourseResponse;
-    } catch (error : any ) {
+    } catch (error: any) {
         throw new Error(`Error fetching course details: ${error.message}`);
     }
 };
+
 
 
 const calculateTotalLearningTime = (courseEventResponses: CourseEventResponse[]) => {
@@ -296,17 +301,12 @@ export const isCourseOfflineFull = async (courseId: string): Promise<boolean> =>
 
 export const getCoursePurchasedByUser = async (currentUserId: string) => {
     const orders = await Order.find({ user: currentUserId })
-    .populate({
-      path: 'orderDetails',
-      populate: {
-        path: 'course',
-        model: 'Course',
-      },
-    });
-  
     const purchasedCourseResponses = [];
     for (const order of orders) {
-        for (const orderDetail of order.orderDetails as any) {
+        const orderDetails = await OrderDetail.find({ order: order._id })
+        .populate('course') 
+        .exec();
+        for (const orderDetail of orderDetails as any) {
           const course = orderDetail.course;
       
           if (!course) continue;
@@ -314,8 +314,8 @@ export const getCoursePurchasedByUser = async (currentUserId: string) => {
           const trainingParts = await TrainingPartController.getTrainingPartsByCourseId(course._id.toString());
           const totalTrainingPartByCourse = trainingParts.length;
       
-          const courseEventResponses = await CourseEventControler.getCourseEventsByCourse(course._id);
-          courseEventResponses.sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
+          const courseEventResponses = await CourseEventControler.getCourseEventAndProcessByCourse(course._id, currentUserId);
+          
       
           const completedPartsByCourse = await UserTrainingProgressController.getCompletedTrainingPartsOnCourses(course._id, currentUserId);
       
@@ -392,11 +392,10 @@ export const getPurchasedCoursesSchedule = async (courseId: string, currentUserI
 
 const isCourseInCart = async (courseId: string, currentUserId: string) => {
     try {
-        const shoppingCart = await ShoppingCart.findOne({ userId: currentUserId });
+     
+        const shoppingCart = await ShoppingCart.findOne({ user: currentUserId });
         if (!shoppingCart) return false;
-
-        const shoppingCartItems = await ShoppingCartItem.find({ shoppingCartId: shoppingCart._id, isDeleted: false });
-
+        const shoppingCartItems = await ShoppingCartItem.find({ shoppingCart: shoppingCart._id, isDeleted: false });
         return shoppingCartItems.some(item => item.course._id.toString()  === courseId);
     } catch (error: any) {
         throw new Error('Không thể kiểm tra khóa học trong giỏ hàng.');
@@ -405,7 +404,7 @@ const isCourseInCart = async (courseId: string, currentUserId: string) => {
 
 const isCourseInSchedule = async (courseId:string, currentUserId:string) => {
     try {
-        const orders = await Order.find({ userId: currentUserId });
+        const orders = await Order.find({ user: currentUserId });
         for (const order of orders) {
             const orderdeatail = await OrderDetail.find({order: order});
             for (const orderDetail of orderdeatail) {
@@ -432,12 +431,23 @@ const isFeedbackByUser = async (courseId: string, currentUserId: string) => {
 
 const isCourseFavorited = async (courseId:string, currentUserId:string) => {
     try {
-        const favorite = await UserFavorite.findOne({ userId: currentUserId, courseId });
+        const favorite = await UserFavorite.findOne({ user: currentUserId, course: courseId });
         return !!favorite;
     } catch (error: any) {
         throw new Error('Không thể kiểm tra khóa học yêu thích.');
     }
 };
+
+const isCourseFree = async (courseId: string) => {
+    try {
+        const course = await Course.findById(courseId);
+        if (!course) throw new Error('Khóa học không tồn tại.');
+        return course.isFree === true;
+    } catch (error: any) {
+        throw new Error(error.message || 'Không thể kiểm tra khóa học miễn phí.');
+    }
+};
+
 
 export const getCourseStatus = async (courseId : string, currentUserId : string) => {
     try {
@@ -469,6 +479,9 @@ export const getCourseStatus = async (courseId : string, currentUserId : string)
        
         if (await isCourseFavorited(courseId, currentUserId)) {
             isFavorited = true;
+        }
+        if (await isCourseFree (courseId)) {
+            isFree = true;
         }
 
        

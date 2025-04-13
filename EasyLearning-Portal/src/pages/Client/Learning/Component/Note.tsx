@@ -4,7 +4,7 @@ import { DELETE_NOTE_BY_COURSE_AND_USER, UPDATE_NOTE_BY_COURSE_AND_USER } from "
 import { DoCallAPIWithToken } from "../../../../services/HttpService";
 import { HTTP_OK } from "../../../../constants/HTTPCode";
 import { convertSecondsToTime } from "../../../../hooks/useTime";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface NoteProps {
@@ -22,11 +22,10 @@ const Note: React.FC <NoteProps> = ({note, onNoteClick, onDelete}) => {
   const handleSave = async () => {
     try {
       const payload = {
-        id: note.id,
         noteContent: editedContent, 
       };
-      const URL = UPDATE_NOTE_BY_COURSE_AND_USER;
-      const response = await DoCallAPIWithToken(URL, "POST", payload);
+      const URL = UPDATE_NOTE_BY_COURSE_AND_USER + `?noteId=${note.id}`;
+      const response = await DoCallAPIWithToken(URL, "PUT", payload);
       if (response.status === HTTP_OK) {
         toast.success("Ghi chú đã được cập nhật thành công!");
         setIsEditing(false);
@@ -40,7 +39,7 @@ const Note: React.FC <NoteProps> = ({note, onNoteClick, onDelete}) => {
 
   const handleDelete = async (noteId: string) => {
   
-      const URL = `${DELETE_NOTE_BY_COURSE_AND_USER}?userNoteId=${noteId} `;
+      const URL = DELETE_NOTE_BY_COURSE_AND_USER + `?noteId=${noteId}`;
       const response = await DoCallAPIWithToken(URL, "DELETE");
       if (response.status === HTTP_OK) {
         toast.success("Ghi chú đã được xóa thành công!"); 

@@ -45,8 +45,9 @@ export const checkDiscountUsed = async (userId: string, discountId: string) => {
   return !!used;
 };
 
-export const applyDiscount = async (shoppingCartId: string, discountCode: string, currentUserId: string) => {
-  const shoppingCart = await ShoppingCart.findById(shoppingCartId);
+export const applyDiscount = async (discountCode: string, currentUserId: string) => {
+
+  const shoppingCart = await ShoppingCart.findOne({ userId: currentUserId });
   if (!shoppingCart) throw new Error('Không tìm thấy giỏ hàng');
 
   const discount = await Discount.findOne({ discountCode });
@@ -62,7 +63,7 @@ export const applyDiscount = async (shoppingCartId: string, discountCode: string
   if (discount.usageLimit && discount.usageCount >= discount.usageLimit)
     throw new Error('Mã giảm giá đã đạt giới hạn sử dụng');
 
-  let discountedPrice: Types.Decimal128 = shoppingCart.totalPriceDiscount;
+  let discountedPrice = shoppingCart.totalPriceDiscount;
 
   let priceValue = parseFloat(discountedPrice.toString());
 

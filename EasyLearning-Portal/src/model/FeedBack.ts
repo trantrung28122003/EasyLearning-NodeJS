@@ -2,7 +2,7 @@
 export interface Feedback {
   feedbackId: string;
   userId: string;
-  fullNameUser: string;
+  fullName: string;
   typeUser:string;
   avatar: string;
   content: string;

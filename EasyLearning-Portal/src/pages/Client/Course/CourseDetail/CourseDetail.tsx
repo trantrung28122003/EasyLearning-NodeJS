@@ -8,7 +8,7 @@ import {
   ADD_TO_FEEDBACK,
   GET_COURSE_DETAIL,
   GET_COURSE_STATUS_BY_USER,
-  GET_FEEDBACKS_FOR_COURSE,
+  GET_FEEDBACKS_FOR_COURSE_PUBLIC,
   TOGGLE_FAVORITE_COURSE,
 } from "../../../../constants/API";
 import {
@@ -29,7 +29,7 @@ import { formatDateVN } from "../../../../hooks/useTime";
 
 const CourseDetail: React.FC = () => {
   const navigate = useNavigate();
-  const { courseId } = useParams<{ courseId: string }>();
+  const {courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<CourseSlim>();
   const [feedBacks, setFeedBacks] = useState<Feedback[]>([]);
   const starRatings = [1, 2, 3, 4, 5];
@@ -53,7 +53,7 @@ const CourseDetail: React.FC = () => {
   const fetchCourseDetail = async (courseId: string) => {
     setIsLoading(true);
     try {
-      const URL = GET_COURSE_DETAIL + "/" + courseId;
+      const URL = GET_COURSE_DETAIL + `?courseId=${courseId}`;
       const courseRes = await DoCallAPIWithOutToken(URL, "GET");
       if (courseRes.status == HTTP_OK) {
         const courseDetail: CourseSlim = courseRes.data.result;
@@ -68,7 +68,8 @@ const CourseDetail: React.FC = () => {
           setOpenEvents(initialOpenEvents);
         }
       }
-      const feedbackURL = GET_FEEDBACKS_FOR_COURSE + "/" + courseId;
+      
+      const feedbackURL = GET_FEEDBACKS_FOR_COURSE_PUBLIC + `?courseId=${courseId}`;
       const feedbackRes = await DoCallAPIWithOutToken(feedbackURL, "GET");
       if (feedbackRes.status === HTTP_OK) {
         setFeedBacks(feedbackRes.data.result.feedbacks);
@@ -163,7 +164,7 @@ const CourseDetail: React.FC = () => {
           fetchCourseDetail(courseId);
           fetchCourseStatus(courseId);
         }
-        //alert("Cảm ơn bạn đã gửi phản hồi!");
+      
       }
     } catch (error) {
       console.error("Lỗi khi gửi phản hồi:", error);
@@ -410,11 +411,11 @@ const CourseDetail: React.FC = () => {
                                   <>
                                     <dd
                                       className={classNames("training-part", {
-                                        free: part.free,
-                                        "not-free": !part.free,
+                                        free: part.isFree,
+                                        "not-free": !part.isFree,
                                       })}
                                       onClick={() =>
-                                        part.free &&
+                                        part.isFree &&
                                         onShowModalCoursePreview(part)
                                       }
                                     >
@@ -426,13 +427,13 @@ const CourseDetail: React.FC = () => {
                                         )}
                                         <span
                                           className={classNames({
-                                            underline: part.free,
+                                            underline: part.isFree,
                                           })}
                                         >
                                           {part.trainingPartName}
                                         </span>
                                       </span>
-                                      {part.free && (
+                                      {part.isFree && (
                                         <span className="preview-text">
                                           Xem thử
                                         </span>
@@ -532,7 +533,7 @@ const CourseDetail: React.FC = () => {
                                       >
                                         <span className="feedback-userName-background">
                                           {" "}
-                                          {itemFeedback.fullNameUser}
+                                          {itemFeedback.fullName}
                                         </span>
 
                                         <span style={{ fontSize: "14px" }}>

@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IOrder extends Document {
-    orderTotalPrice: mongoose.Types.Decimal128;
+    orderTotalPrice: number;
     orderPaymentMethod: string;
     orderNotes?: string;
     orderQuantity: number;
@@ -13,7 +13,7 @@ export interface IOrder extends Document {
 }
 
 const orderSchema: Schema<IOrder> = new Schema({
-        orderTotalPrice: { type: Schema.Types.Decimal128, required: true },
+        orderTotalPrice: { type: Number, required: true },
         orderPaymentMethod: { type: String, required: true },
         orderNotes: { type: String },
         orderQuantity: { type: Number, required: true },

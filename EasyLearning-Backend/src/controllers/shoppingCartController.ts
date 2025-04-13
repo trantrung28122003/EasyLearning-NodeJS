@@ -58,7 +58,7 @@ export const getShoppingCartByUser = async (currentUserId: string) => {
         const isExpired = await CourseController.isRegistrationDateExpired(course._id!.toString());
         const notRegistrable : boolean = isFull || isExpired;
 
-        item.cartItemPriceDiscount = Types.Decimal128.fromString(discountedPrice.toString());
+        item.cartItemPriceDiscount = discountedPrice;
         await item.save();
 
         totalPrice += Number(item.cartItemPrice);
@@ -77,8 +77,8 @@ export const getShoppingCartByUser = async (currentUserId: string) => {
       })
     );
 
-    shoppingCart.totalPrice = Types.Decimal128.fromString(totalPrice.toString());
-    shoppingCart.totalPriceDiscount = Types.Decimal128.fromString(totalPriceDiscount.toString());
+    shoppingCart.totalPrice = totalPrice;
+    shoppingCart.totalPriceDiscount = totalPriceDiscount;
     await shoppingCart.save();
 
     return {
@@ -94,6 +94,7 @@ export const getShoppingCartByUser = async (currentUserId: string) => {
 };
 
 export const createShoppingCart = async (userId: string) => {
+ 
     const cart = await ShoppingCart.create({
       user: new Types.ObjectId(userId),
       totalPrice: 0,
@@ -104,7 +105,7 @@ export const createShoppingCart = async (userId: string) => {
 };
 
 
-export const isCourseInCart = async (currentUserId: string, courseId: string): Promise<boolean> => {
+export const isCourseInCart = async ( courseId: string, currentUserId: string): Promise<boolean> => {
     const shoppingCart = await ShoppingCart.findOne({ user: currentUserId, isDeleted: false });
     if (!shoppingCart) {
       return false;

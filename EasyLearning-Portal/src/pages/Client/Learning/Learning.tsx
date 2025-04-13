@@ -84,7 +84,7 @@ const Learning: React.FC = () => {
     trainingPartId?: string
   ) => {
     try {
-      const URL = GET_TRAINING_PROGRESS_STATUS + "/" + courseId;
+      const URL = GET_TRAINING_PROGRESS_STATUS + `?courseId=${courseId}`;
       const response = await DoCallAPIWithToken(URL, "GET");
       if (response.status === HTTP_OK) {
         const data = await response.data.result;
@@ -172,7 +172,7 @@ const Learning: React.FC = () => {
   const fetchUserNotesByCourseAndUser = async (courseId: string) => {
     setIsLoading(true);
     try {
-      const URL = `${GET_NOTES_BY_COURSE_AND_USER}?courseId=${courseId}`;
+      const URL = GET_NOTES_BY_COURSE_AND_USER + `?courseId=${courseId}`;
       const response = await DoCallAPIWithToken(URL, "GET");
       if (response.status === HTTP_OK) {
         setNotes(response.data.result);
@@ -186,8 +186,8 @@ const Learning: React.FC = () => {
 
   const handleVideoCompleted = async (trainingPartId: string) => {
     try {
-      const URL = UPDATE_TRAINING_PROGRESS + "/" + trainingPartId;
-      const response = await DoCallAPIWithToken(URL, "POST");
+      const URL = UPDATE_TRAINING_PROGRESS + `?trainingPartId=${trainingPartId}`;
+      const response = await DoCallAPIWithToken(URL, "PUT");
       if (response.status === HTTP_OK) {
         const updatedTrainingProgress: TrainingPartProgressResponses =
           response.data.result;
@@ -204,8 +204,8 @@ const Learning: React.FC = () => {
     scoreRequest: ScoreRequest
   ) => {
     try {
-      const URL = UPDATE_TRAINING_PROGRESS + "/" + trainingPartId;
-      const response = await DoCallAPIWithToken(URL, "POST", scoreRequest);
+      const URL = UPDATE_TRAINING_PROGRESS + `?trainingPartId=${trainingPartId}`;
+      const response = await DoCallAPIWithToken(URL, "PUT", scoreRequest);
       if (response.status === HTTP_OK) {
         const updatedTrainingProgress: TrainingPartProgressResponses =
           response.data.result;
@@ -279,20 +279,22 @@ const Learning: React.FC = () => {
   const completeCourse = async () => {
     if (selectedTrainingPart?.id && !selectedTrainingPart.completed) {
       try {
-        const URL = UPDATE_TRAINING_PROGRESS + "/" + selectedTrainingPart.id;
-        const response = await DoCallAPIWithToken(URL, "POST");
+        await fetchCreateCertificate();
+        const URL = UPDATE_TRAINING_PROGRESS + `?trainingPartId=${selectedTrainingPart.id}`;
+        const response = await DoCallAPIWithToken(URL, "PUT");
         if (response.status === HTTP_OK) {
           const updatedTrainingProgress: TrainingPartProgressResponses =
             response.data.result;
           if (courseId) {
             fetchUserTrainingProgress(courseId, updatedTrainingProgress.id);
           }
+          navigate("/confirmCertificate", { state: { courseId } });
         }
       } catch (error) {
         console.error("Không thể cập nhật trạng thái hoàn thành:", error);
       }
-      await fetchCreateCertificate();
-      navigate("/confirmCertificate", { state: { courseId } });
+      
+   
     } else {
       navigate("/certificate");
     }

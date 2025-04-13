@@ -38,20 +38,26 @@ const CheckoutResult = () => {
     if (hasCalledAPI.current) return;
     sessionStorage.removeItem("discountCode");
     setIsLoading(true);
-    DoCallAPIWithToken(CONFIRM_PAYMENT_MOMO, "post", request)
-      .then((res) => {
-        if (res.data.code === HTTP_OK) {
-          navigate("/paymentSuccess", { replace: true });
-        } else {
-          navigate("/paymentFailure", { replace: true });
-        }
-      })
-      .catch()
-      .finally(() => {
-        setIsLoading(false);
-        hasCalledAPI.current = true;
-      });
+  
+    DoCallAPIWithToken(CONFIRM_PAYMENT_MOMO, "POST", request)
+    .then((res) => {
+   
+      if (res.data.result.code === 200) { 
+        navigate("/paymentSuccess", { replace: true });
+      } else {
+        navigate("/paymentFailure", { replace: true });
+      }
+    })
+    .catch((err) => {
+      console.error("Có lỗi khi gọi API:", err);
+      navigate("/paymentFailure", { replace: true });
+    })
+    .finally(() => {
+      setIsLoading(false);
+      hasCalledAPI.current = true;
+    });
   };
+  
 
   useEffect(() => {
     if (

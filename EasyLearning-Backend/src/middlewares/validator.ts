@@ -71,3 +71,9 @@ export const LoginValidator = [
     })
     .withMessage('Invalid username or password'),
 ];
+
+
+export const paymentValidator = [
+  body('amount').isNumeric().withMessage('Số tiền phải là một số'),
+  body('note').isString().withMessage('Ghi chú phải là một chuỗi'),
+];

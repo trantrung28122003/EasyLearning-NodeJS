@@ -21,16 +21,11 @@ export interface ICourse extends Document {
     createdBy: string;
     changedBy?: string;
     isDeleted: boolean;
-    coursesDetails: Types.ObjectId[];
     trainingParts: Types.ObjectId[];
-    shoppingCartItems: Types.ObjectId[];
-    orderDetails: Types.ObjectId[];
     feedbacks: Types.ObjectId[];
-    addOns: Types.ObjectId[];
     userNotes: Types.ObjectId[];
     learningOutcomes: ILearningOutcomes[] | Types.ObjectId[];
     courseDiscounts: Types.ObjectId[];
-    userFavorite: Types.ObjectId[];
 }
 
 const courseSchema: Schema<ICourse> = new Schema({
@@ -52,16 +47,11 @@ const courseSchema: Schema<ICourse> = new Schema({
     createdBy: {type: String, required: true},
     changedBy: { type: String},
     isDeleted: { type: Boolean, default: false },
-    coursesDetails: [{ type: Schema.Types.ObjectId, ref: 'CourseDetail' }],
     trainingParts: [{ type: Schema.Types.ObjectId, ref: 'TrainingPart' }],
-    shoppingCartItems: [{ type: Schema.Types.ObjectId, ref: 'ShoppingCartItem' }],
-    orderDetails: [{ type: Schema.Types.ObjectId, ref: 'OrderDetail' }],
     feedbacks: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }],
-    addOns: [{ type: Schema.Types.ObjectId, ref: 'AddOn' }],
     userNotes: [{ type: Schema.Types.ObjectId, ref: 'UserNote' }],
     learningOutcomes: [{ type: Schema.Types.ObjectId, ref: 'LearningOutcomes' }],
     courseDiscounts: [{ type: Schema.Types.ObjectId, ref: 'CourseDiscount' }],
-    userFavorite: [{ type: Schema.Types.ObjectId, ref: 'UserFavorite' }],
     },
     {
         timestamps: true 

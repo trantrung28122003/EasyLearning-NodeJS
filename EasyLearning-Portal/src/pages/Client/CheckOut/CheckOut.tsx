@@ -21,7 +21,7 @@ const CheckOut: React.FC = () => {
   const doGetShoppingCart = () => {
     DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "get").then((res) => {
       if (res.status === HTTP_OK) {
-        const shoppingCart: ShoppingCart = res.data;
+        const shoppingCart: ShoppingCart = res.data.result;
         setShoppingCart(shoppingCart);
       }
     });
@@ -34,15 +34,14 @@ const CheckOut: React.FC = () => {
       };
 
       if (selectedPayment === "MOMO") {
-        DoCallAPIWithToken(DO_PAYMENT_MOMO, "post", payloadMomo).then((res) => {
+        DoCallAPIWithToken(DO_PAYMENT_MOMO, "POST", payloadMomo).then((res) => {
           if (res.status === HTTP_OK) {
-            window.location.href = res.data;
+            window.location.href = res.data.result.payUrl;
             sessionStorage.setItem("isAwaitingPaymentConfirmation", "true");
           }
         });
       } else if (selectedPayment == "VNPAY") {
         const URL = DO_PAYMENT_VNPAY + `?amount=${totalPriceDiscount}`;
-        console.log("Ủlllll", URL);
         DoCallAPIWithToken(URL, "get").then((res) => {
           if (res.status === HTTP_OK) {
             window.location.href = res.data;
@@ -110,7 +109,9 @@ const CheckOut: React.FC = () => {
               </div>
 
               <div
-                className="checkout-card mb-3"
+                className="checkout-card mb-3 opacity-50 position-relative"
+                style={{ pointerEvents: "none" }}
+                // className="checkout-card mb-3"
                 onClick={() => setSelectedPayment("VNPAY")}
               >
                 <h2 className="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
@@ -145,6 +146,19 @@ const CheckOut: React.FC = () => {
                     </p>
                   </div>
                 </div>
+                <div
+                  className="position-absolute w-100 text-center"
+                  style={{
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    padding: "10px 0",
+                    fontWeight: "bold",
+                    color: "red",
+                  }}
+                >
+                  VNPay hiện đang bảo trì
+                </div>
               </div>
             </div>
           </div>
@@ -155,7 +169,7 @@ const CheckOut: React.FC = () => {
                 <h5 className="card-title mb-3 text-center">Tổng thanh toán</h5>
                 <h6 className="card-title mb-3">Danh sách khóa học:</h6>
                 <ul className="list-group mb-4">
-                  {shoppingCart?.shoppingCartItemResponses.map(
+                  {shoppingCart?.shoppingCartItems.map(
                     (shopingCartItem, index) => (
                       <li
                         key={index}

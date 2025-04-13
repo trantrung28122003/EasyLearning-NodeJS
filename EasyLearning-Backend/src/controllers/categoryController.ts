@@ -1,7 +1,8 @@
 import { toCourseResponse } from '../mapper/courseMapper';
 import Category from '../models/category';
-import courseDetail from '../models/courseDetail';
+import CourseDetail from '../models/courseDetail';
 import course from '../models/course';
+import courseDetail from '../models/courseDetail';
 
 export const getAllCategories = async () => {
   return await Category.find({ isDeleted: false }); 
@@ -15,19 +16,37 @@ export const getCategoryById = async (id: string) => {
 
 export const findTop4BySortOrderNotNull = async () => {
   const validSortOrders = [1, 2, 3, 4];
+
+
   const categories = await Category.find({
     sortOrder: { $in: validSortOrders }
   });
 
-  return categories;
-};
+  const courseDetails = await CourseDetail.find();
 
+
+  const results = categories.map((category) => {
+    const totalCourses = courseDetails.filter(courseDetail =>
+      courseDetail.category._id.toString() === category._id!.toString()
+    ).length;
+
+    return {
+      id: category._id,
+      name: category.categoryName,
+      sortOrder: category.sortOrder,
+      imageUrl: category.imageUrl,
+      totalCourses,
+    };
+  });
+
+  return results;
+};
 
 export const getAllCategoryWithCourse = async () => {
   const categories = await Category.find();
   const result: any[] = [];
   for (const category of categories) {
-    const courseDetails = await courseDetail.find({ categoryId: category._id });
+    const courseDetails = await courseDetail.find({ category: category._id });
     const courseIds = courseDetails.map(p => p.course._id);
     const courses = await course.find({ _id: { $in: courseIds } });
     const courseResponses = courses.map(toCourseResponse); 
@@ -48,7 +67,7 @@ export const getCategoryWithCourse = async (categoryId: string) => {
     return null; 
   }
 
-  const courseDetails = await courseDetail.find({ categoryId: category._id });
+  const courseDetails = await courseDetail.find({ category: category._id });
   const courseIds = courseDetails.map(p => p.course._id); 
   const courses = await course.find({ _id: { $in: courseIds } });
 

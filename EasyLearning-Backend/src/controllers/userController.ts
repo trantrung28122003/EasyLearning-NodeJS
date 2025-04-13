@@ -2,6 +2,8 @@ import User from '../models/user';
 import Role from '../models/role';
 import * as ShoppingCartController from './shoppingCartController';
 import { Types } from 'mongoose';
+
+
 export const getAllUsers = async () => {
   return await User.find({ isDeleted: false }).populate('roles');
 };
@@ -25,28 +27,33 @@ export const getUserByToken = async (token: string) => {
 };
 
 export const createUser = async (data: any) => {
-  const { userName, email, fullName, dayOfBirth, avatarUrl, password, role = 'USER' } = data;
+  try {
+    const { userName, email, fullName, dayOfBirth, avatarUrl, password, role = 'USER' } = data;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      console.log('Email đã được sử dụngggg');  
+      throw new Error('Email đã được sử dụnggg');
+    }
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) throw new Error('Email đã được sử dụng');
+    const roleObj = await Role.findOne({ name: role });
+    if (!roleObj) throw new Error('Role không tồn tại');
 
-  const roleObj = await Role.findOne({ name: role });
-  if (!roleObj) throw new Error('Role không tồn tại');
-
-  const newUser = new User({
-    userName,
-    email,
-    fullName,
-    dayOfBirth,
-    imageUrl: avatarUrl,
-    password,
-    roles: roleObj._id,
-  });
-  const savedUser = await newUser.save();
-
-  await ShoppingCartController.createShoppingCart((savedUser._id as Types.ObjectId ).toString());
-
-  return savedUser;
+    const newUser = new User({
+      userName,
+      email,
+      fullName,
+      dayOfBirth,
+      imageUrl: avatarUrl,
+      password,
+      roles: roleObj._id,
+    });
+    await ShoppingCartController.createShoppingCart((newUser._id as string));
+    const savedUser = await newUser.save();
+    return savedUser;
+  } catch (err:any) {
+    console.error("Lỗi khi tạo người dùng hoặc giỏ hàng: ", err.message);
+    throw err; 
+  }
 };
 
 export const updateUser = async (id: string, body: any) => {
@@ -60,6 +67,13 @@ export const updateUser = async (id: string, body: any) => {
     }
   });
 
+  return await user.save();
+};
+export const updateProfile = async (id: string, fullName: string, avatarUrl: string | undefined) => {
+  const user = await User.findById(id);
+  if (!user) throw new Error('Người dùng không tồn tại');
+  user.fullName = fullName;
+  if (avatarUrl) user.imageUrl = avatarUrl;
   return await user.save();
 };
 

@@ -2,12 +2,12 @@ import { Router, Request, Response } from 'express';
 import * as DiscountController from '../controllers/discountController';
 import { responseSuccess, responseError } from '../utils/responseHandler';
 import { HttpCode } from '../enums/httpCode'; 
-import { check_authentication } from 'src/utils/authen';
+import { check_authentication } from '../utils/authen';
 
 const router = Router();
 
 
-router.post('/updateUserDiscount', check_authentication ,async (req: Request, res: Response) => {
+router.post('/update-user-discount', check_authentication ,async (req: Request, res: Response) => {
   const { discountCode } = req.body;  
   try {
     const user = (req as any).user;
@@ -23,7 +23,7 @@ router.post('/updateUserDiscount', check_authentication ,async (req: Request, re
 });
 
 
-router.get('/getAllDisCountByUser', check_authentication, async (req: Request, res: Response) => {
+router.get('/get-all-discount-by-user', check_authentication, async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const discounts = await DiscountController.getAllDiscountByUser(user._id.toString());

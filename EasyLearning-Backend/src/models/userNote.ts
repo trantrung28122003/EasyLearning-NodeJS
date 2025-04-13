@@ -2,8 +2,8 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IUserNote extends Document {
     noteContent: string;
-    timeStamp: mongoose.Types.Decimal128;
-    trainingPart: Types.ObjectId;
+    timeStamp: number;
+    trainingPart: string;
     course: Types.ObjectId;
     user: Types.ObjectId;
     changedBy?: string;
@@ -12,8 +12,8 @@ export interface IUserNote extends Document {
 
 const userNoteSchema: Schema<IUserNote> = new Schema({
         noteContent: { type: String, required: true },
-        timeStamp: { type: Schema.Types.Decimal128, required: true },
-        trainingPart: { type: Schema.Types.ObjectId, ref: 'TrainingPart', required: true },
+        timeStamp: { type: Number, required: true },
+        trainingPart: { type: String , required: true},
         course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
         user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         changedBy: { type: String },

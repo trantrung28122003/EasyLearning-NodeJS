@@ -12,13 +12,12 @@ import {
 import * as yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { getCredentials } from "../../../hooks/useLogin";
 import { HTTP_OK } from "../../../constants/HTTPCode";
 import { LoginRequest } from "../../../model/Authentication";
 import { useGoogleLogin } from "@react-oauth/google";
 
 const Login: React.FC = () => {
-  const [loginError, setLoginError] = useState<string | null>(null); // State lưu lỗi đăng nhập
+  const [loginError, setLoginError] = useState<string | null>(null); 
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
@@ -59,8 +58,6 @@ const Login: React.FC = () => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log("Google Login Success:", tokenResponse);
-      console.log("tokenResponse", tokenResponse.access_token);
       try {
         const res = await DoCallAPIWithOutToken(LOGIN_WITH_GOOGLE, "POST", {
           access_token: tokenResponse.access_token,

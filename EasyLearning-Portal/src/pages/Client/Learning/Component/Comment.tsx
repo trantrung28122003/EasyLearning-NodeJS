@@ -3,9 +3,10 @@ import "./comments.css";
 import { DoCallAPIWithToken } from "../../../../services/HttpService";
 import { HTTP_OK } from "../../../../constants/HTTPCode";
 import { getTimeAgo } from "../../../../hooks/useTime";
-import { BASE_URL } from "../../../../constants/API";
+import { GET_ALL_COMMENT_BY_TRAINING_PART } from "../../../../constants/API";
 import { getUserInfo } from "../../../../hooks/useLogin";
-import { getWebSocketClient } from "../../../../hooks/websocket";
+import io from "socket.io-client";
+import { useWebSocket } from "../../../../contexts/WebSocketContext";
 interface Reply {
   id: string;
   userId: string;
@@ -29,6 +30,7 @@ interface CommentsProps {
   trainingPartId: string;
 }
 const Comments: React.FC<CommentsProps> = ({ trainingPartId }) => {
+  const socket = useWebSocket();
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState<string>("");
   const [visibleReplies, setVisibleReplies] = useState<Record<string, boolean>>(
@@ -72,90 +74,84 @@ const Comments: React.FC<CommentsProps> = ({ trainingPartId }) => {
     setReplyContent("");
   };
 
-  const client = getWebSocketClient();
-  useEffect(() => {
-    console.log("trainpartiddd neeee", trainingPartId);
+  const fetchCommentByTrainingPart = (trainingPartId: string) => {
     DoCallAPIWithToken(
-      BASE_URL + `/comments/commentsByTrainingPart/${trainingPartId}`,
+      GET_ALL_COMMENT_BY_TRAINING_PART + `?trainingPartId=${trainingPartId}`,
       "GET"
     ).then((res) => {
       if (res.status === HTTP_OK) {
         setComments(res.data.result);
       }
     });
+  };
 
-    if (!client.active) {
-      client.onConnect = () => {
-        client.subscribe("/topic/comments", (content) => {
-          const newComment = JSON.parse(content.body);
-          setComments((prev) => [...prev, newComment]);
+  useEffect(() => {
+    fetchCommentByTrainingPart(trainingPartId);
+
+    if (socket) {
+      socket.emit("join", { room: `commentByTrainingPart${trainingPartId}` });
+
+      socket.on("newComment", (newCommentResponse) => {
+        setComments((prev) => {
+          const updatedComments = [...prev, newCommentResponse];
+          updatedComments.sort((a, b) => new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime());
+          return updatedComments;
         });
-        client.subscribe("/topic/replies", (content) => {
-          const newReply = JSON.parse(content.body);
-          setComments((prevComments) =>
-            prevComments.map((comment) =>
-              comment.id === newReply.commentId
-                ? { ...comment, replies: [...comment.replies, newReply] }
-                : comment
-            )
+      });
+
+      socket.on("newReply", (newReplyResponse) => {
+        setComments((prevComments) => {
+       
+          const updatedComments = prevComments.map((comment) =>
+            comment.id === newReplyResponse.commentId
+              ? { 
+                  ...comment, 
+                  replies: [...comment.replies, newReplyResponse].sort((a, b) => new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime())
+                }
+              : comment
           );
-        });
+      
+          updatedComments.sort((a, b) => new Date(b.dateCreate).getTime() - new Date(a.dateCreate).getTime());
+          return updatedComments;
+        })
+      });
+      return () => {
+        socket.off("newComment");
+        socket.off("newReply");
       };
-
-      client.activate();
     }
+  }, [socket, trainingPartId]);
 
-    return () => {
-      if (client.active) client.deactivate();
-    };
-  }, [client]);
 
   const handleReplySubmit = (commentId: string, parentReplyUserId?: string) => {
     if (replyContent.trim() === "") return;
     const userInfo = getUserInfo();
-    if (client.connected) {
-      const replyRequest: any = {
-        commentId,
-        replyContent: replyContent,
-        currentUserId: userInfo?.id,
-      };
+    const replyRequest: any = {
+      commentId,
+      replyContent: replyContent,
+      currentUserId: userInfo?.id,
+    };
 
-      if (parentReplyUserId) {
-        replyRequest.parentReplyUserId = parentReplyUserId;
-      }
-
-      client.publish({
-        destination: "/app/reply",
-        body: JSON.stringify(replyRequest),
-      });
-      setReplyingCommentId(null);
-      setReplyContent("");
-      setReplyingToReplyId(null);
-    } else {
-      console.error("WebSocket connection is not established.");
+    if (parentReplyUserId) {
+      replyRequest.parentReplyUserId = parentReplyUserId;
     }
+
+    setReplyingCommentId(null);
+    setReplyContent("");
+    setReplyingToReplyId(null);
   };
 
   const sendComment = () => {
-    if (client.connected) {
-      const userInfo = JSON.parse(localStorage.getItem("user_info") || "{}");
+    const userInfo = JSON.parse(localStorage.getItem("user_info") || "{}");
 
-      const commentRequest = {
-        trainingPartId: trainingPartId,
-        commentContent: commentContent,
-        userId: userInfo.id,
-        replies: [],
-      };
+    const commentRequest = {
+      trainingPartId: trainingPartId,
+      commentContent: commentContent,
+      userId: userInfo.id,
+      replies: [],
+    };
 
-      client.publish({
-        destination: "/app/comment",
-        body: JSON.stringify(commentRequest),
-      });
-
-      setCommentContent("");
-    } else {
-      console.error("WebSocket connection is not established.");
-    }
+    setCommentContent("");
   };
 
   return (

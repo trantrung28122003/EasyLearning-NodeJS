@@ -1,7 +1,7 @@
 export interface CertificateResponse  {
     issuedDate: string;
     expirationDate: string;
-    certificateUrl: string;
+    certificatePDFUrl: string;
     courseName: string;
     userFullName: string;
     certificateNumber : string;

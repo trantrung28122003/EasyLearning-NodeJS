@@ -8,6 +8,8 @@ export interface IUserTrainingProgress extends Document {
     isCompleted: boolean;
     changedBy?: string;
     isDeleted: boolean;
+    createdAt?: Date; 
+    updatedAt?: Date;
 }
 
 const userTrainingProgressSchema: Schema<IUserTrainingProgress> = new Schema({

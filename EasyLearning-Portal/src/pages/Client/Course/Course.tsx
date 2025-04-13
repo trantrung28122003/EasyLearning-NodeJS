@@ -14,13 +14,11 @@ import { useNavigate, useParams } from "react-router-dom";
 const Course: React.FC = () => {
   const { categoryId } = useParams();
   const [categories, setCategories] = useState<CategoryWithCourse[]>([]);
-  const [categoriesWithCourse, setCategoriesWithCourse] = useState<
-    CategoryWithCourse[]
-  >([]);
+  const [categoriesWithCourse, setCategoriesWithCourse] = useState< CategoryWithCourse[]>([]);
 
   const doCallGetAllCourseByCategory = () => {
-    const URL = `${GET_COURSE_BY_CATEGORY + "/" + categoryId}`;
-    DoCallAPIWithOutToken(URL, "get").then((res) => {
+    const URL = GET_COURSE_BY_CATEGORY + `?categoryId=${categoryId}`;
+    DoCallAPIWithOutToken(URL, "GET").then((res) => {
       if (res.status === HTTP_OK) {
         const response: ApplicationResponse<CategoryWithCourse[]> = res.data;
         const categoriesWithCourseData = Array.isArray(response.result)
@@ -33,13 +31,10 @@ const Course: React.FC = () => {
 
   const doCallGetAllCategory = () => {
     const URL = GET_ALL_CATEGORY_WITH_COURSE;
-    DoCallAPIWithOutToken(URL, "get").then((res) => {
+    DoCallAPIWithOutToken(URL, "GET").then((res) => {
       if (res.status === HTTP_OK) {
         const response: ApplicationResponse<CategoryWithCourse[]> = res.data;
-        const categoriesData = Array.isArray(response.result)
-          ? response.result
-          : [response.result];
-        setCategories(categoriesData);
+        setCategories(response.result);
       }
     });
   };
@@ -51,6 +46,7 @@ const Course: React.FC = () => {
   useEffect(() => {
     doCallGetAllCourseByCategory();
     doCallGetAllCategory();
+     console.log(categories)
   }, [categoryId]);
 
   return (

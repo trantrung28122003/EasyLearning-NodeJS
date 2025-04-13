@@ -7,12 +7,10 @@ const DoCallAPIWithToken = async <T>(
   requestBody?: T | FormData
 ) => {
   const token = getCredentials();
-
   const headers: Record<string, string> = {
     Authorization: `Bearer ${token}`,
   };
 
-  // Chỉ thêm Content-Type nếu requestBody không phải FormData
   if (!(requestBody instanceof FormData)) {
     headers["Content-Type"] = "application/json";
   }

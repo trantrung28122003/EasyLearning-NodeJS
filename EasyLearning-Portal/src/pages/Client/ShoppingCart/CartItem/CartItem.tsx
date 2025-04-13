@@ -9,7 +9,7 @@ interface CartItemProps {
 }
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const removeCartItem = () => {
-    const URL = REMOVE_FROM_CART + "/" + item.id;
+     const URL = REMOVE_FROM_CART +`?shoppingCartItemId=${item.id}`;
     DoCallAPIWithToken(URL, "post").then((res) => {
       if (res.status === HTTP_OK) {
         window.location.reload();

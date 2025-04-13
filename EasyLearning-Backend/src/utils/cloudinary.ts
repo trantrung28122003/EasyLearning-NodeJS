@@ -11,13 +11,18 @@ cloudinary.config({
 export const uploadToCloudinary = async (
   buffer: Buffer,
   folder = 'elearning',
-  resourceType: 'image' | 'video' = 'image' 
+  resourceType: 'image' | 'video' | 'raw' = 'image',
+  publicId?: string
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload_stream(
       {
         folder,
         resource_type: resourceType,
+        public_id: publicId,
+        filename_override: publicId, 
+        use_filename: !!publicId,   
+        unique_filename: false,
       },
       (error, result) => {
         if (error) return reject(error);

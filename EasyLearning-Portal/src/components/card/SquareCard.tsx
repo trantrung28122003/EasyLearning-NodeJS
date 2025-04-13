@@ -25,6 +25,7 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
   const navigate = useNavigate();
   const starRatings = [1, 2, 3, 4, 5];
   const [averageRating, setAverageRating] = useState<number | null>(null);
+  const [totalFeedback, setTotalFeedback] = useState<number | null>(null);
   const [priceDiscount, setPriceDiscount] = useState<number | null>(null);
   const [isPurchased, setIsPurchased] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
@@ -37,11 +38,12 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
   const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
   const fetchCourseDetail = async (courseId: string) => {
     try {
-      const URL = GET_COURSE_DETAIL + "/" + courseId;
+      const URL = GET_COURSE_DETAIL+ `?courseId=${courseId}`;
       const response = await DoCallAPIWithOutToken(URL, "GET");
       if (response.status === HTTP_OK) {
         const data = await response.data.result;
         setAverageRating(data.averageRating);
+        setTotalFeedback(data.totalFeedback);
         setPriceDiscount(data.coursePriceDiscount);
       }
     } catch (error) {
@@ -68,11 +70,11 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
     document.body.classList.remove("overflow-hidden");
   };
   useEffect(() => {
-    if (course?.id) {
-      fetchCourseDetail(course.id);
-      fetchCourseStatus(course.id);
+    if (course?._id) {
+      fetchCourseDetail(course._id);
+      fetchCourseStatus(course._id);
     }
-  }, [course.id]);
+  }, [course._id]);
 
   const addToCart = () => {
     if (!isLogin) {
@@ -83,12 +85,12 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
     } else if (isInCart) {
       navigate("/shoppingCart");
     } else {
-      const URL = ADD_TO_CART + `?courseId=${course.id}`;
+      const URL = ADD_TO_CART + `?courseId=${course._id}`;
       DoCallAPIWithToken(URL, "post").then((res) => {
         if (res.data.code === HTTP_OK) {
           setIsOverlayOpen(true);
           setAddShoppingCartItem(res.data.result);
-          fetchCourseStatus(course.id);
+          fetchCourseStatus(course._id);
         } else if (res.data.code === 400) {
           setErrorMessage(
             "Khóa học đã hết hạn đăng kí và số lượng đăng kí đã đầy"
@@ -110,7 +112,7 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
   const toggleFavorite = async () => {
     setIsLoadingFavorite(true);
     try {
-      const URL = TOGGLE_FAVORITE_COURSE + `?courseId=${course.id}`;
+      const URL = TOGGLE_FAVORITE_COURSE + `?courseId=${course._id}`;
       const response = await DoCallAPIWithToken(URL, "POST");
       if (response.status === HTTP_OK) {
         setIsFavorited(response.data.result);
@@ -143,11 +145,11 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
               className="img-fluid"
               src={course.imageUrl}
               alt=""
-              onClick={() => handleNavigateToCourseDetail(course.id)}
+              onClick={() => handleNavigateToCourseDetail(course._id)}
             />
             <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
               <a
-                href={"/course/" + course.id}
+                href={"/course/" + course._id}
                 className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
                 style={{ borderRadius: "30px 0 0 30px" }}
               >
@@ -168,7 +170,7 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
           </div>
           <div
             className="text-center p-2 pb-0"
-            onClick={() => handleNavigateToCourseDetail(course.id)}
+            onClick={() => handleNavigateToCourseDetail(course._id)}
           >
             {priceDiscount && priceDiscount > 0 ? (
               <>
@@ -207,7 +209,7 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
                 )
               )}
               <small style={{ marginLeft: "4px" }}>
-                ({course.feedbacks.length})
+                ({totalFeedback})
               </small>
             </div>
             <h5 className="mb-2 course-name">{course.courseName}</h5>
@@ -223,7 +225,8 @@ const SquareCard: React.FC<CardProps> = ({ course }) => {
             </small>
             <small className="flex-fill text-center border-end py-2">
               <i className="fa fa-clock text-primary me-2"></i>
-              {course.trainingParts.length}
+              {course.trainingParts?.length ?? 0}
+
             </small>
             <small className="flex-fill text-center py-2">
               <i className="fa fa-user text-primary me-2"></i>

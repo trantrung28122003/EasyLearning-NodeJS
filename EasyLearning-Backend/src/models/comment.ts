@@ -7,6 +7,8 @@ export interface IComment extends Document {
     replies: Types.ObjectId[];  
     changedBy?: string;
     isDeleted: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const commentSchema: Schema<IComment> = new Schema({

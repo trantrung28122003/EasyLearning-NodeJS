@@ -2,6 +2,7 @@ export interface FeedbackInfoResponse {
     id: string;
     courseId: string;
     userId: string;
+    typeUser?:string;
     avatar: string;
     fullName: string;
     content: string;

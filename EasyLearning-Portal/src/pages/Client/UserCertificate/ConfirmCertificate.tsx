@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import ClientShared from "../Shared/ClientShared";
 import { useLocation, useNavigate } from "react-router-dom";
-import { GET_CERTIFICATE_BY_COURSE } from "../../../constants/API";
+import { GET_CERTIFICATE_BY_USER_AND_COURSE } from "../../../constants/API";
 import { DoCallAPIWithToken } from "../../../services/HttpService";
 import { HTTP_OK } from "../../../constants/HTTPCode";
 import { CertificateResponse } from "../../../model/Certificate";
 import { saveAs } from "file-saver";
 import "./UserCertificate.css";
+import DataLoader from "../../../components/lazyLoadComponent/DataLoader";
 
 const ConfirmCertificate: React.FC = () => {
   const location = useLocation();
@@ -16,15 +17,16 @@ const ConfirmCertificate: React.FC = () => {
     useState<CertificateResponse>();
   const [isChecked, setIsChecked] = useState(false); 
   const isInitialRender = useRef(true);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
-  const imageUrl = certificateByCourse?.certificateUrl.replace(
+  const imageUrl = certificateByCourse?.certificatePDFUrl.replace(
     "/upload/",
     "/upload/f_jpg/"
   );
 
   const fetchCertificate = async () => {
     try {
-      const URL = GET_CERTIFICATE_BY_COURSE + `?courseId=${courseId}`;
+      const URL = GET_CERTIFICATE_BY_USER_AND_COURSE + `?courseId=${courseId}`;
       const response = await DoCallAPIWithToken(URL, "GET");
       if (response.status === HTTP_OK) {
         setCertificateByCourse(response.data.result);
@@ -36,7 +38,7 @@ const ConfirmCertificate: React.FC = () => {
 
   useEffect(() => {
     if (isInitialRender.current) {
-      isInitialRender.current = false; // Đánh dấu render đầu tiên đã xong
+      isInitialRender.current = false; 
       return;
     }
     if (courseId) {
@@ -49,9 +51,9 @@ const ConfirmCertificate: React.FC = () => {
   };
 
   const handleConfirm = async () => {
-    if (certificateByCourse?.certificateUrl) {
+    if (certificateByCourse?.certificatePDFUrl) {
       try {
-        const response = await fetch(certificateByCourse.certificateUrl);
+        const response = await fetch(certificateByCourse.certificatePDFUrl);
         const blob = await response.blob();
         saveAs(blob, `${certificateByCourse.userFullName}.pdf`);
       } catch (error) {
@@ -74,12 +76,17 @@ const ConfirmCertificate: React.FC = () => {
                 <h2>{certificateByCourse?.courseName}</h2>
               </div>
               <div className="row g-4 justify-content-center">
+              <div className="row g-4 justify-content-center" style={{ position: "relative" }}>
+              <DataLoader isLoading={isImageLoading } />
                 <img
                   className="shadow-effect"
-                  style={{ width: "50%" }}
+                  style={{ width: "50%", display: isImageLoading ? "none" : "block" }}
                   src={imageUrl}
                   alt=""
+                  onLoad={() => setIsImageLoading(false)}
+                  onError={() => setIsImageLoading(false)}
                 />
+            </div>
               </div>
               <div className="row g-4 justify-content-center mt-4">
                 <div className="form-check">

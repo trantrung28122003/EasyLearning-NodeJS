@@ -27,18 +27,18 @@ const ShoppingCart: React.FC = () => {
   const doGetShoppingCart = () => {
     sessionStorage.removeItem("discountCode");
     setIsLoading(true);
-    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "get")
+    DoCallAPIWithToken(BASE_URL_SHOPPING_CART, "GET")
       .then((res) => {
         if (res.status === HTTP_OK) {
-          const shoppingCart: ShoppingCart = res.data;
+          const shoppingCart: ShoppingCart = res.data.result;
           setShoppingCart(shoppingCart);
           setTotalPriceDiscount(shoppingCart.totalPriceDiscount);
           setNotRegistrableItem(
-            shoppingCart.shoppingCartItemResponses.some(
+            shoppingCart.shoppingCartItems.some(
               (item) => item.notRegistrable
             )
           );
-          if (shoppingCart.shoppingCartItemResponses.length > 0) {
+          if (shoppingCart.shoppingCartItems.length > 0) {
             setIsCheckedItemInShoppingCart(true);
           }
         }
@@ -123,11 +123,12 @@ const ShoppingCart: React.FC = () => {
             <p>
               <span className="h2">Giỏ hàng: </span>
               <span id="cartItemCount" className="h4">
-                có {shoppingCart?.shoppingCartItemResponses.length} sản phẩm
+                có {shoppingCart?.shoppingCartItems.length} sản phẩm
                 <br />
               </span>
             </p>
-            {shoppingCart?.shoppingCartItemResponses.map((item) => {
+            
+            {shoppingCart?.shoppingCartItems && shoppingCart?.shoppingCartItems.map((item) => {
               return <CartItem item={item} />;
             })}
 
